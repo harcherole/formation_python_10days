@@ -1,0 +1,2694 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIAM · Corrections Bootcamp Python 10 Jours</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFFFFF;--bg2:#F7F9FC;--bg3:#EFF3F8;--card:#FFFFFF;--card2:#F4F7FB;
+  --vert:#058A5A;--vert-d:#046B46;--vert-l:#0BB877;--vert-xl:#D1FAE5;
+  --or:#D97706;--or-l:#FEF3C7;--bleu:#1D72B8;--bleu-l:#DBEAFE;
+  --violet:#7C3AED;--violet-l:#EDE9FE;--rouge:#DC2626;--rouge-l:#FEE2E2;
+  --orange:#EA580C;--orange-l:#FFEDD5;--texte:#1A2332;--texte2:#374151;
+  --gris:#6B7280;--gris-l:#9CA3AF;--gris-xl:#E5E9EF;--border:#E2E8F0;
+  --shadow:0 2px 12px rgba(0,0,0,0.08);--shadow2:0 8px 32px rgba(0,0,0,0.12);
+  --radius:12px;--radius-sm:8px;
+  --mono:'Space Mono',monospace;--display:'Syne',sans-serif;--body:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--texte);font-family:var(--body);font-size:15px;line-height:1.65;overflow-x:hidden}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg3)}
+::-webkit-scrollbar-thumb{background:var(--vert);border-radius:3px}
+
+.hero{position:relative;background:linear-gradient(135deg,#065F46 0%,#0A2540 60%,#1E3A5F 100%);min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 24px 60px;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 80% 70% at 50% 40%,black 30%,transparent 100%)}
+.hero-glow{position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(5,138,90,0.25) 0%,transparent 70%);top:-100px;left:50%;transform:translateX(-50%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(5,138,90,0.2);border:1px solid rgba(5,138,90,0.5);color:#4DEDB0;font-family:var(--mono);font-size:11px;letter-spacing:.12em;padding:6px 16px;border-radius:50px;margin-bottom:32px;text-transform:uppercase;animation:fadeUp .6s ease both}
+.hero-badge::before{content:'';width:7px;height:7px;background:#4DEDB0;border-radius:50%;animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+.hero h1{font-family:var(--display);font-weight:800;font-size:clamp(38px,6vw,72px);line-height:1.0;text-align:center;letter-spacing:-2px;color:#FFFFFF;animation:fadeUp .6s .1s ease both}
+.hero h1 .accent{color:#4DEDB0}
+.hero h1 .sub{display:block;font-size:40%;font-weight:500;color:rgba(255,255,255,0.6);letter-spacing:0;margin-top:10px}
+.hero-desc{font-size:16px;color:rgba(255,255,255,0.65);text-align:center;max-width:560px;margin:20px auto 0;font-weight:300;animation:fadeUp .6s .2s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.days-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-bottom:2px solid var(--gris-xl);padding:0 24px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.days-nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:4px;overflow-x:auto;padding:10px 0;scrollbar-width:none}
+.days-nav-inner::-webkit-scrollbar{display:none}
+.day-tab{flex-shrink:0;padding:7px 16px;border-radius:50px;border:1.5px solid transparent;background:transparent;color:var(--gris);font-family:var(--mono);font-size:11.5px;cursor:pointer;transition:all .2s;text-decoration:none;display:flex;align-items:center;gap:7px;white-space:nowrap}
+.day-tab:hover{background:var(--bg3);color:var(--texte);border-color:var(--border)}
+.day-tab.active{background:var(--vert-xl);border-color:rgba(5,138,90,0.4);color:var(--vert-d);font-weight:700}
+.day-tab .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+
+.main{max-width:1200px;margin:0 auto;padding:0 24px 80px}
+.day-section{margin-top:72px;scroll-margin-top:66px}
+.day-header{display:flex;align-items:flex-start;gap:24px;margin-bottom:40px;padding-bottom:28px;border-bottom:2px solid var(--gris-xl)}
+.day-num{flex-shrink:0;width:70px;height:70px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:26px;font-weight:800}
+.day-title{font-family:var(--display);font-size:clamp(22px,3.5vw,36px);font-weight:800;letter-spacing:-1px;line-height:1.1;color:var(--texte)}
+.day-subtitle{font-size:14px;color:var(--gris);margin-top:6px;font-weight:300}
+.progress-wrap{background:var(--gris-xl);border-radius:50px;height:5px;overflow:hidden;margin:4px 0 28px}
+.progress-bar{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--vert),#38BDF8);transition:width 1.2s cubic-bezier(0.4,0,0.2,1)}
+.section-label{font-family:var(--mono);font-size:11px;color:var(--vert);letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px;font-weight:700}
+.objectifs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:8px;margin-bottom:36px}
+.objectif-item{display:flex;align-items:center;gap:12px;padding:11px 16px;background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:14px;color:var(--texte2)}
+.check{width:22px;height:22px;border-radius:50%;background:var(--vert-xl);color:var(--vert-d);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.cours-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px;box-shadow:var(--shadow);transition:border-color .2s,box-shadow .2s}
+.cours-card:hover{border-color:rgba(5,138,90,0.4);box-shadow:var(--shadow2)}
+.cours-header{display:flex;align-items:center;gap:12px;padding:16px 22px;cursor:pointer;user-select:none;border-bottom:1.5px solid transparent;transition:border-color .2s,background .2s}
+.cours-header:hover{background:var(--bg2)}
+.cours-header.open{border-color:var(--border);background:var(--bg2)}
+.cours-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;background:var(--vert-xl)}
+.cours-title{font-family:var(--display);font-size:15px;font-weight:700;flex:1;color:var(--texte)}
+.cours-chevron{color:var(--gris-l);transition:transform .25s;font-size:18px;font-weight:700}
+.cours-chevron.open{transform:rotate(90deg)}
+.cours-body{display:none;padding:22px}
+.cours-body.open{display:block}
+.cours-body p{color:var(--texte2);font-size:14px;line-height:1.7;margin-bottom:14px}
+.cours-body strong{color:var(--texte);font-weight:600}
+.code-block{background:#0F1923;border:1.5px solid #1E2D3D;border-radius:var(--radius);overflow:hidden;margin:14px 0}
+.code-bar{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;background:#0A1320;border-bottom:1px solid #1E2D3D}
+.code-dots{display:flex;gap:6px}
+.code-dot{width:10px;height:10px;border-radius:50%}
+.code-lang{font-family:var(--mono);font-size:11px;color:#5A7A94;letter-spacing:.06em}
+.copy-btn{background:transparent;border:1px solid #2A4060;color:#5A7A94;padding:3px 10px;border-radius:4px;font-size:11px;font-family:var(--mono);cursor:pointer;transition:all .2s}
+.copy-btn:hover{border-color:var(--vert);color:#4DEDB0}
+.copy-btn.copied{border-color:var(--vert);color:#4DEDB0}
+pre{padding:18px;overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.75;tab-size:2;color:#C9D8E8}
+.kw{color:#7DD3FC}.fn{color:#86EFAC}.str{color:#FCA5A5}.cmt{color:#3D5A70;font-style:italic}.num{color:#FDBA74}.var{color:#E2E8F0}.op{color:#A78BFA}.cls{color:#F0ABFC}.bi{color:#7DD3FC}
+.info-box{padding:14px 18px;border-radius:var(--radius-sm);margin:14px 0;display:flex;gap:12px;font-size:14px;line-height:1.6}
+.info-box.tip{background:var(--vert-xl);border-left:3px solid var(--vert);color:var(--texte2)}
+.info-box.warn{background:var(--or-l);border-left:3px solid var(--or);color:var(--texte2)}
+.info-box .icon{font-size:18px;flex-shrink:0;margin-top:1px}
+code{font-family:var(--mono);font-size:12.5px;background:var(--bg3);border:1px solid var(--border);padding:2px 6px;border-radius:4px;color:var(--vert-d);font-weight:600}
+.d1 .day-num{background:var(--vert-xl);color:var(--vert-d)}
+.d2 .day-num{background:var(--bleu-l);color:var(--bleu)}
+.d3 .day-num{background:var(--or-l);color:var(--or)}
+.d4 .day-num{background:var(--violet-l);color:var(--violet)}
+.d5 .day-num{background:var(--rouge-l);color:var(--rouge)}
+.d6 .day-num{background:#D1FAE5;color:#065F46}
+.d7 .day-num{background:#FEE2E2;color:#991B1B}
+.d8 .day-num{background:#EDE9FE;color:#5B21B6}
+.d9 .day-num{background:#FEF3C7;color:#92400E}
+.d1 .section-label{color:var(--vert-d)}
+.d2 .section-label{color:var(--bleu)}
+.d3 .section-label{color:var(--or)}
+.d4 .section-label{color:var(--violet)}
+.d5 .section-label{color:var(--rouge)}
+.d6 .section-label{color:#065F46}
+.d7 .section-label{color:#991B1B}
+.d8 .section-label{color:#5B21B6}
+.d9 .section-label{color:#92400E}
+.site-footer{text-align:center;padding:56px 24px;border-top:2px solid var(--gris-xl);color:var(--gris-l);font-family:var(--mono);font-size:12px;background:var(--bg2)}
+.site-footer strong{color:var(--vert-d)}
+@media(max-width:768px){.day-header{flex-direction:column;gap:14px}}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-badge">Club D.I.A.M · Corrections Officielles</div>
+  <h1>Corrections <span class="accent">Python</span><span class="sub">Bootcamp 10 Jours — Solutions Complètes & Expliquées</span></h1>
+  <p class="hero-desc">57 exercices corrigés avec explications. Chaque solution est testée et commentée.</p>
+</section>
+
+<nav class="days-nav">
+  <div class="days-nav-inner">
+    <a href="#corr-jour1" class="day-tab active"><span class="dot"></span>Jour 1 — Fondations</a>
+    <a href="#corr-jour2" class="day-tab"><span class="dot"></span>Jour 2 — Contrôle</a>
+    <a href="#corr-jour3" class="day-tab"><span class="dot"></span>Jour 3 — Fonctions</a>
+    <a href="#corr-jour4" class="day-tab"><span class="dot"></span>Jour 4 — Listes</a>
+    <a href="#corr-jour5" class="day-tab"><span class="dot"></span>Jour 5 — Dicts &amp; Sets</a>
+    <a href="#corr-jour6" class="day-tab"><span class="dot"></span>Jour 6 — Fichiers</a>
+    <a href="#corr-jour7" class="day-tab"><span class="dot"></span>Jour 7 — POO</a>
+    <a href="#corr-jour8" class="day-tab"><span class="dot"></span>Jour 8 — NumPy</a>
+    <a href="#corr-jour9" class="day-tab"><span class="dot"></span>Jour 9 — Pandas</a>
+  </div>
+</nav>
+
+<main class="main">
+
+<section class="day-section d1" id="corr-jour1">
+  <div class="day-header">
+    <div class="day-num">1</div>
+    <div>
+      <div class="section-label">Corrections · Jour 1</div>
+      <h2 class="day-title">Fondations Python</h2>
+      <p class="day-subtitle">Variables · Types · Arithmétique · Input/Output · Strings</p>
+    </div>
+  </div>
+  <div class="progress-wrap"><div class="progress-bar" style="width:10%"></div></div>
+  <div class="section-label">Objectifs vérifiés</div>
+  <div class="objectifs-grid"><div class="objectif-item"><span class="check">✓</span>Variables et types int, float, str, bool</div><div class="objectif-item"><span class="check">✓</span>Opérations arithmétiques</div><div class="objectif-item"><span class="check">✓</span>Input / print / f-strings</div><div class="objectif-item"><span class="check">✓</span>Méthodes strings et slicing</div></div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 1.1</span>
+      <span class="cours-title" style="display:inline">Hello World Personnalisé</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Un profil développeur formaté avec des séparateurs visuels.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div>La multiplication d'une chaîne <code>"=" * 50</code> répète le caractère 50 fois.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_1_1.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="bi">print</span>(&quot;=&quot; * <span class="num">50</span>)
+<span class="bi">print</span>(&quot;        MON PROFIL DÉVELOPPEUR DIAM&quot;)
+<span class="bi">print</span>(&quot;=&quot; * <span class="num">50</span>)
+<span class="bi">print</span>(&quot;  Nom       : Jean Dupont&quot;)
+<span class="bi">print</span>(&quot;  Ville     : Libreville&quot;)
+<span class="bi">print</span>(&quot;  Objectif  : Python &amp; Data Science&quot;)
+<span class="bi">print</span>(&quot;  Club      : D.I.A.M&quot;)
+<span class="bi">print</span>(&quot;=&quot; * <span class="num">50</span>)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 1.2</span>
+      <span class="cours-title" style="display:inline">Déclaration de Variables</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Six variables de types différents affichées avec des f-strings.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_1_2.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre>prenom       = &quot;Jean&quot;
+nom          = &quot;Dupont&quot;
+age          = <span class="num">22</span>
+ville        = &quot;Libreville&quot;
+taille       = <span class="num">1.78</span>
+est_etudiant = <span class="kw">True</span>
+
+<span class="bi">print</span>(f&quot;Prénom   : {prenom}&quot;)
+<span class="bi">print</span>(f&quot;Nom      : {nom}&quot;)
+<span class="bi">print</span>(f&quot;Âge      : {age} ans&quot;)
+<span class="bi">print</span>(f&quot;Ville    : {ville}&quot;)
+<span class="bi">print</span>(f&quot;Taille   : {taille} m&quot;)
+<span class="bi">print</span>(f&quot;Étudiant : {est_etudiant}&quot;)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 1.3</span>
+      <span class="cours-title" style="display:inline">Vérification des Types</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>La fonction <code>type()</code> retourne le type Python de chaque valeur.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div><code>10</code> est un <code>int</code>, on peut calculer avec. <code>"123"</code> est une <code>str</code>, impossible d'additionner avec un entier.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_1_3.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre>valeurs = [<span class="num">10</span>, <span class="num">3.14</span>, &quot;Python&quot;, <span class="kw">True</span>, &quot;<span class="num">123</span>&quot;]
+<span class="kw">for</span> v <span class="kw">in</span> valeurs:
+    <span class="bi">print</span>(f&quot;  {<span class="bi">str</span>(v):&lt;<span class="num">10</span>} -&gt; <span class="bi">type</span> : {<span class="bi">type</span>(v).__name__}&quot;)
+
+<span class="cmt"># DIFFÉRENCE : 10 (int) et &quot;123&quot; (str)</span>
+<span class="cmt"># 10 + 5 = 15   -&gt;  calcul arithmétique possible</span>
+<span class="cmt"># &quot;123&quot; + 5     -&gt;  TypeError : impossible !</span>
+<span class="cmt"># &quot;123&quot; + &quot;5&quot;   = &quot;1235&quot;  (concaténation)</span></pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 1.4</span>
+      <span class="cours-title" style="display:inline">Calculatrice de Base</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Les 7 opérateurs arithmétiques Python sur deux valeurs.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_1_4.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre>a, b = <span class="num">17</span>, <span class="num">5</span>
+<span class="bi">print</span>(f&quot;{a} +  {b} = {a + b}&quot;)     <span class="cmt"># 22</span>
+<span class="bi">print</span>(f&quot;{a} -  {b} = {a - b}&quot;)     <span class="cmt"># 12</span>
+<span class="bi">print</span>(f&quot;{a} *  {b} = {a * b}&quot;)     <span class="cmt"># 85</span>
+<span class="bi">print</span>(f&quot;{a} /  {b} = {a / b}&quot;)     <span class="cmt"># 3.4</span>
+<span class="bi">print</span>(f&quot;{a} <span class="op">//</span> {b} = {a <span class="op">//</span> b}&quot;)    <span class="cmt"># 3  (div entière)</span>
+<span class="bi">print</span>(f&quot;{a} %  {b} = {a % b}&quot;)     <span class="cmt"># 2  (reste)</span>
+<span class="bi">print</span>(f&quot;{a} <span class="op">**</span> {b} = {a <span class="op">**</span> b}&quot;)    <span class="cmt"># 1 419 857 (puissance)</span></pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--or-l);color:var(--or);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 1.5</span>
+      <span class="cours-title" style="display:inline">Calculs Pratiques — Géométrie & Conversion</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Trois calculs mathématiques classiques en Python.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_1_5.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="cmt"># Aire d&#x27;un rectangle</span>
+longueur, largeur = <span class="num">12</span>, <span class="num">5</span>
+aire_rect = longueur * largeur
+<span class="bi">print</span>(f&quot;Aire rectangle  : {aire_rect} m²&quot;)
+
+<span class="cmt"># Aire d&#x27;un cercle  r = 7</span>
+PI = <span class="num">3.14159</span>
+r  = <span class="num">7</span>
+aire_cercle = PI * r <span class="op">**</span> <span class="num">2</span>
+<span class="bi">print</span>(f&quot;Aire cercle     : {aire_cercle:.4f} m²&quot;)
+
+<span class="cmt"># Conversion Celsius -&gt; Fahrenheit</span>
+celsius    = <span class="num">25</span>
+fahrenheit = celsius * <span class="num">9</span> / <span class="num">5</span> + <span class="num">32</span>
+<span class="bi">print</span>(f&quot;{celsius}°C = {fahrenheit}°F&quot;)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 1.6</span>
+      <span class="cours-title" style="display:inline">Calculatrice Interactive</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p><code>input()</code> retourne une chaîne → conversion en <code>float()</code> obligatoire.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_1_6.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre>a = <span class="bi">float</span>(<span class="bi">input</span>(&quot;Premier nombre  : &quot;))
+b = <span class="bi">float</span>(<span class="bi">input</span>(&quot;Deuxième nombre : &quot;))
+
+<span class="bi">print</span>(f&quot;Somme      : {a} + {b} = {a + b}&quot;)
+<span class="bi">print</span>(f&quot;Différence : {a} - {b} = {a - b}&quot;)
+<span class="bi">print</span>(f&quot;<span <span class="kw">class</span<span class="op">>=</span>"cls">Produit</span>    : {a} * {b} = {a * b}&quot;)
+<span class="kw">if</span> b <span class="op">!=</span> <span class="num">0</span>:
+    <span class="bi">print</span>(f&quot;Quotient   : {a} / {b} = {a / b:.4f}&quot;)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(&quot;Quotient   : Division par zéro impossible !&quot;)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 1.7</span>
+      <span class="cours-title" style="display:inline">Calculateur d'Année de Naissance</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Soustraction simple à partir de l'année actuelle.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_1_7.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre>age              = <span class="bi">int</span>(<span class="bi">input</span>(&quot;Votre âge : &quot;))
+annee_naissance  = <span class="num">2025</span> - age
+<span class="bi">print</span>(f&quot;Vous êtes né(e) vers {annee_naissance}.&quot;)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 1.8</span>
+      <span class="cours-title" style="display:inline">Convertisseur de Distances</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Multiplication par le facteur de conversion, affichage à 2 décimales.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_1_8.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre>km    = <span class="bi">float</span>(<span class="bi">input</span>(&quot;Distance en kilomètres : &quot;))
+miles = km * <span class="num">0.621371</span>
+<span class="bi">print</span>(f&quot;{km} km = {miles:.2f} miles&quot;)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 1.9</span>
+      <span class="cours-title" style="display:inline">Manipulation de Texte</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Enchaînement des méthodes string sur la chaîne de départ.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_1_9.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre>texte = &quot;   PYTHON EST PUISSANT   &quot;
+
+<span class="bi">print</span>(f&quot;Original     : &<span class="cmt">#x27;{texte}&#x27;&quot;)</span>
+<span class="bi">print</span>(f&quot;strip()      : &<span class="cmt">#x27;{texte.strip()}&#x27;&quot;)</span>
+<span class="bi">print</span>(f&quot;lower()      : &<span class="cmt">#x27;{texte.strip().lower()}&#x27;&quot;)</span>
+<span class="bi">print</span>(f&quot;capitalize() : &<span class="cmt">#x27;{texte.strip().lower().capitalize()}&#x27;&quot;)</span>
+<span class="bi">print</span>(f&quot;Nb de &<span class="cmt">#x27;P&#x27;    : {texte.count(&#x27;P&#x27;)}&quot;)</span>
+<span class="bi">print</span>(f&quot;replace()    : &<span class="cmt">#x27;{texte.strip().replace(&#x27;PUISSANT&#x27;, &#x27;GÉNIAL&#x27;)}&#x27;&quot;)</span></pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 1.10</span>
+      <span class="cours-title" style="display:inline">Formateur de Nom + Email Généré</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Combinaison de <code>title()</code>, <code>upper()</code>, <code>lower()</code> et indexation de chaîne.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_1_10.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre>prenom    = <span class="bi">input</span>(&quot;Votre prénom : &quot;).strip().title()
+nom       = <span class="bi">input</span>(&quot;Votre nom   : &quot;).strip().upper()
+
+initiales = f&quot;{prenom[<span class="num">0</span>]}.{nom[<span class="num">0</span>]}.&quot;
+email     = f&quot;{prenom.lower()}.{nom.lower()}<span <span class="kw">class</span<span class="op">>=</span>"fn">@diam</span>.ga&quot;
+
+<span class="bi">print</span>(f&quot;Prénom    : {prenom}&quot;)
+<span class="bi">print</span>(f&quot;Nom       : {nom}&quot;)
+<span class="bi">print</span>(f&quot;Initiales : {initiales}&quot;)
+<span class="bi">print</span>(f&quot;Email     : {email}&quot;)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--or-l);color:var(--or);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 1.12</span>
+      <span class="cours-title" style="display:inline">Vérificateur de Palindrome</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Le slicing <code>[::-1]</code> inverse une chaîne — on compare avec l'original.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div><code>[::-1]</code> = slicing avec pas -1 → parcours de droite à gauche.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_1_12.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre>mot         = <span class="bi">input</span>(&quot;Entrez un mot : &quot;).lower().strip()
+mot_inverse = mot[::-<span class="num">1</span>]
+
+<span class="bi">print</span>(f&quot;Mot     : {mot}&quot;)
+<span class="bi">print</span>(f&quot;Inversé : {mot_inverse}&quot;)
+
+<span class="kw">if</span> mot <span class="op">==</span> mot_inverse:
+    <span class="bi">print</span>(f&quot;✅ &<span class="cmt">#x27;{mot}&#x27; EST un palindrome !&quot;)</span>
+<span class="kw">else</span>:
+    <span class="bi">print</span>(f&quot;❌ &<span class="cmt">#x27;{mot}&#x27; n&#x27;est PAS un palindrome.&quot;)</span></pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--rouge-l);color:var(--rouge);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Soir 1.13</span>
+      <span class="cours-title" style="display:inline">Soir 1.13 — Convertisseur Multi-Unités</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Trois conversions en une seule session interactive.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">soir_1_13.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre>km      = <span class="bi">float</span>(<span class="bi">input</span>(&quot;Distance en km     : &quot;))
+celsius = <span class="bi">float</span>(<span class="bi">input</span>(&quot;Température en °C  : &quot;))
+kg      = <span class="bi">float</span>(<span class="bi">input</span>(&quot;Poids en kg        : &quot;))
+
+miles      = km * <span class="num">0.621371</span>
+fahrenheit = celsius * <span class="num">9</span> / <span class="num">5</span> + <span class="num">32</span>
+livres     = kg * <span class="num">2.205</span>
+
+<span class="bi">print</span>(f&quot;\n{km} km   -&gt; {miles:.3f} miles&quot;)
+<span class="bi">print</span>(f&quot;{celsius}°C  -&gt; {fahrenheit:.1f}°F&quot;)
+<span class="bi">print</span>(f&quot;{kg} kg  -&gt; {livres:.3f} livres&quot;)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--rouge-l);color:var(--rouge);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Soir 1.14</span>
+      <span class="cours-title" style="display:inline">Soir 1.14 — Calculateur de Facture</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Calcul HT → TVA 18% → TTC avec affichage formaté.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">soir_1_14.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre>prix_ht  = <span class="bi">float</span>(<span class="bi">input</span>(&quot;Prix unitaire HT (FCFA) : &quot;))
+quantite = <span class="bi">int</span>(<span class="bi">input</span>(&quot;Quantité                : &quot;))
+TVA      = <span class="num">0.18</span>
+
+sous_total_ht = prix_ht * quantite
+montant_tva   = sous_total_ht * TVA
+total_ttc     = sous_total_ht + montant_tva
+
+<span class="bi">print</span>(&quot;\n&quot; + &quot;=&quot; * <span class="num">44</span>)
+<span class="bi">print</span>(&quot;          FACTURE D.I.A.M&quot;)
+<span class="bi">print</span>(&quot;=&quot; * <span class="num">44</span>)
+<span class="bi">print</span>(f&quot;  {&<span class="cmt">#x27;Prix unitaire HT&#x27;:&lt;22} : {prix_ht:&gt;9,.0f} F&quot;)</span>
+<span class="bi">print</span>(f&quot;  {&<span class="cmt">#x27;Quantité&#x27;:&lt;22} : {quantite:&gt;9}&quot;)</span>
+<span class="bi">print</span>(f&quot;  {&<span class="cmt">#x27;Sous-total HT&#x27;:&lt;22} : {sous_total_ht:&gt;9,.0f} F&quot;)</span>
+<span class="bi">print</span>(f&quot;  {&<span class="cmt">#x27;TVA (18%)&#x27;:&lt;22} : {montant_tva:&gt;9,.0f} F&quot;)</span>
+<span class="bi">print</span>(&quot;-&quot; * <span class="num">44</span>)
+<span class="bi">print</span>(f&quot;  {&<span class="cmt">#x27;TOTAL TTC&#x27;:&lt;22} : {total_ttc:&gt;9,.0f} F&quot;)</span>
+<span class="bi">print</span>(&quot;=&quot; * <span class="num">44</span>)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--rouge-l);color:var(--rouge);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Soir 1.15</span>
+      <span class="cours-title" style="display:inline">Soir 1.15 — Carte de Visite ASCII</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Calcul dynamique de la largeur pour encadrer le texte le plus long.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">soir_1_15.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre>nom        = <span class="bi">input</span>(&quot;Nom complet  : &quot;).strip()
+profession = <span class="bi">input</span>(&quot;Profession   : &quot;).strip()
+telephone  = <span class="bi">input</span>(&quot;Téléphone    : &quot;).strip()
+email      = <span class="bi">input</span>(&quot;Email        : &quot;).strip()
+
+w = <span class="bi">max</span>(<span class="bi">len</span>(nom), <span class="bi">len</span>(profession), <span class="bi">len</span>(telephone), <span class="bi">len</span>(email)) + <span class="num">6</span>
+
+<span class="bi">print</span>(&quot;╔&quot; + &quot;═&quot; * w + &quot;╗&quot;)
+<span class="bi">print</span>(&quot;║&quot; + &quot; &quot; * w + &quot;║&quot;)
+<span class="bi">print</span>(f&quot;║  {nom:&lt;{w-<span class="num">2</span>}}║&quot;)
+<span class="bi">print</span>(f&quot;║  {profession:&lt;{w-<span class="num">2</span>}}║&quot;)
+<span class="bi">print</span>(&quot;║&quot; + &quot; &quot; * w + &quot;║&quot;)
+<span class="bi">print</span>(f&quot;║  📞 {telephone:&lt;{w-<span class="num">5</span>}}║&quot;)
+<span class="bi">print</span>(f&quot;║  ✉  {email:&lt;{w-<span class="num">5</span>}}║&quot;)
+<span class="bi">print</span>(&quot;║&quot; + &quot; &quot; * w + &quot;║&quot;)
+<span class="bi">print</span>(&quot;╚&quot; + &quot;═&quot; * w + &quot;╝&quot;)</pre>
+</div>
+  </div>
+</div></section>
+
+<section class="day-section d2" id="corr-jour2">
+  <div class="day-header">
+    <div class="day-num">2</div>
+    <div>
+      <div class="section-label">Corrections · Jour 2</div>
+      <h2 class="day-title">Structures de Contrôle</h2>
+      <p class="day-subtitle">if/elif/else · Opérateurs logiques · while · for · break/continue</p>
+    </div>
+  </div>
+  <div class="progress-wrap"><div class="progress-bar" style="width:20%"></div></div>
+  <div class="section-label">Objectifs vérifiés</div>
+  <div class="objectifs-grid"><div class="objectif-item"><span class="check">✓</span>Conditions if/elif/else</div><div class="objectif-item"><span class="check">✓</span>Opérateurs de comparaison et logiques</div><div class="objectif-item"><span class="check">✓</span>Boucles while avec break/continue</div><div class="objectif-item"><span class="check">✓</span>Boucles for et range()</div></div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 2.1</span>
+      <span class="cours-title" style="display:inline">Vérificateur de Majorité</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Trois cas : âge invalide / mineur (avec années restantes) / majeur.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div><code>isdigit()</code> vérifie que la saisie est un entier positif avant la conversion.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_2_1.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre>saisie = <span class="bi">input</span>(&quot;Entrez votre âge : &quot;)
+<span class="kw">if</span> <span class="kw">not</span> saisie.isdigit():
+    <span class="bi">print</span>(&quot;❌ Âge invalide (entrez un entier positif).&quot;)
+<span class="kw">else</span>:
+    age = <span class="bi">int</span>(saisie)
+    <span class="kw">if</span> age &gt; <span class="num">150</span>:
+        <span class="bi">print</span>(&quot;❌ Âge invalide (trop grand).&quot;)
+    <span class="kw">elif</span> age &lt; <span class="num">18</span>:
+        <span class="bi">print</span>(f&quot;⏳ Vous êtes mineur. Encore {<span class="num">18</span> - age} an(s) avant la majorité.&quot;)
+    <span class="kw">else</span>:
+        <span class="bi">print</span>(f&quot;✅ Vous êtes majeur ({age} ans).&quot;)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 2.2</span>
+      <span class="cours-title" style="display:inline">Calculateur de Mention</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Cinq paliers avec validation de la plage 0-20.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_2_2.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">try</span>:
+    note = <span class="bi">float</span>(<span class="bi">input</span>(&quot;Note (/<span class="num">20</span>) : &quot;))
+    <span class="kw">if</span> <span class="kw">not</span> (<span class="num">0</span> &lt;= note &lt;= <span class="num">20</span>):
+        <span class="bi">print</span>(&quot;❌ Note invalide (entre <span class="num">0</span> et <span class="num">20</span>).&quot;)
+    <span class="kw">elif</span> note &gt;= <span class="num">16</span>: <span class="bi">print</span>(f&quot;{note}/<span class="num">20</span> -&gt; Mention Très Bien 🏆&quot;)
+    <span class="kw">elif</span> note &gt;= <span class="num">14</span>: <span class="bi">print</span>(f&quot;{note}/<span class="num">20</span> -&gt; Mention Bien 🥇&quot;)
+    <span class="kw">elif</span> note &gt;= <span class="num">12</span>: <span class="bi">print</span>(f&quot;{note}/<span class="num">20</span> -&gt; Mention Assez Bien 🥈&quot;)
+    <span class="kw">elif</span> note &gt;= <span class="num">10</span>: <span class="bi">print</span>(f&quot;{note}/<span class="num">20</span> -&gt; Mention Passable ✅&quot;)
+    <span class="kw">else</span>:            <span class="bi">print</span>(f&quot;{note}/<span class="num">20</span> -&gt; Insuffisant ❌&quot;)
+<span class="kw">except</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">ValueError</span>:
+    <span class="bi">print</span>(&quot;❌ Entrez un nombre valide.&quot;)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--or-l);color:var(--or);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 2.4</span>
+      <span class="cours-title" style="display:inline">Calcul de Réduction</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Les seuils doivent être testés du plus grand au plus petit.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_2_4.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre>montant = <span class="bi">float</span>(<span class="bi">input</span>(&quot;Montant d&<span class="cmt">#x27;achat (FCFA) : &quot;))</span>
+
+<span class="kw">if</span>   montant &gt;= 100_000: taux = <span class="num">0.20</span>
+<span class="kw">elif</span> montant &gt;=  50_000: taux = <span class="num">0.15</span>
+<span class="kw">elif</span> montant &gt;=  20_000: taux = <span class="num">0.10</span>
+<span class="kw">else</span>:                    taux = <span class="num">0.0</span>
+
+reduction = montant * taux
+total     = montant - reduction
+
+<span class="bi">print</span>(f&quot;  Montant initial  : {montant:&gt;<span class="num">12</span>,.0f} FCFA&quot;)
+<span class="bi">print</span>(f&quot;  Réduction ({taux*<span class="num">100</span>:.0f}%)   : {reduction:&gt;<span class="num">12</span>,.0f} FCFA&quot;)
+<span class="bi">print</span>(f&quot;  Total à payer    : {total:&gt;<span class="num">12</span>,.0f} FCFA&quot;)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--or-l);color:var(--or);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 2.5</span>
+      <span class="cours-title" style="display:inline">Année Bissextile</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Règle exacte : divisible par 4 MAIS pas par 100, SAUF par 400.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div>L'ordre des conditions est important : tester <code>% 400</code> avant (ou via <code>or</code> en dehors).</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_2_5.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre>annee = <span class="bi">int</span>(<span class="bi">input</span>(&quot;Entrez une année : &quot;))
+
+<span class="kw">if</span> (annee % <span class="num">4</span> <span class="op">==</span> <span class="num">0</span> <span class="kw">and</span> annee % <span class="num">100</span> <span class="op">!=</span> <span class="num">0</span>) <span class="kw">or</span> (annee % <span class="num">400</span> <span class="op">==</span> <span class="num">0</span>):
+    <span class="bi">print</span>(f&quot;✅ {annee} est une année bissextile.&quot;)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(f&quot;❌ {annee} n&<span class="cmt">#x27;est pas une année bissextile.&quot;)</span>
+
+<span class="cmt"># Tests : 2000 ✅  |  1900 ❌  |  2024 ✅  |  2025 ❌</span></pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--or-l);color:var(--or);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 2.7</span>
+      <span class="cours-title" style="display:inline">Pierre-Feuille-Ciseaux</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p><code>random.choice()</code> pour l'ordinateur, if/elif/else pour déterminer le gagnant.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_2_7.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">import</span> random
+
+choix_valides = [&quot;pierre&quot;, &quot;feuille&quot;, &quot;ciseaux&quot;]
+choix_ordi    = random.choice(choix_valides)
+choix_joueur  = <span class="bi">input</span>(&quot;Pierre, Feuille ou Ciseaux ? &quot;).strip().lower()
+
+<span class="kw">if</span> choix_joueur <span class="kw">not</span> <span class="kw">in</span> choix_valides:
+    <span class="bi">print</span>(&quot;❌ Choix invalide !&quot;)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(f&quot;  Vous       : {choix_joueur}&quot;)
+    <span class="bi">print</span>(f&quot;  Ordinateur : {choix_ordi}&quot;)
+    <span class="kw">if</span> choix_joueur <span class="op">==</span> choix_ordi:
+        <span class="bi">print</span>(&quot;  🤝 Égalité !&quot;)
+    <span class="kw">elif</span> ((choix_joueur <span class="op">==</span> &quot;pierre&quot;  <span class="kw">and</span> choix_ordi <span class="op">==</span> &quot;ciseaux&quot;) <span class="kw">or</span>
+          (choix_joueur <span class="op">==</span> &quot;feuille&quot; <span class="kw">and</span> choix_ordi <span class="op">==</span> &quot;pierre&quot;)  <span class="kw">or</span>
+          (choix_joueur <span class="op">==</span> &quot;ciseaux&quot; <span class="kw">and</span> choix_ordi <span class="op">==</span> &quot;feuille&quot;)):
+        <span class="bi">print</span>(&quot;  🏆 Vous gagnez !&quot;)
+    <span class="kw">else</span>:
+        <span class="bi">print</span>(&quot;  💻 L&<span class="cmt">#x27;ordinateur gagne !&quot;)</span></pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 2.9</span>
+      <span class="cours-title" style="display:inline">Validation d'Âge (while)</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Boucle infinie + <code>isdigit()</code> + vérification de plage.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div><code>isdigit()</code> retourne <code>True</code> si tous les caractères sont des chiffres.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_2_9.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">while</span> <span class="kw">True</span>:
+    saisie = <span class="bi">input</span>(&quot;Entrez votre âge (<span class="num">0</span>-<span class="num">120</span>) : &quot;)
+    <span class="kw">if</span> <span class="kw">not</span> saisie.isdigit():
+        <span class="bi">print</span>(&quot;  ❌ Entrez un nombre entier positif.&quot;)
+        <span class="kw">continue</span>
+    age = <span class="bi">int</span>(saisie)
+    <span class="kw">if</span> <span class="num">0</span> &lt;= age &lt;= <span class="num">120</span>:
+        <span class="bi">print</span>(f&quot;  ✅ Âge valide : {age} ans&quot;)
+        <span class="kw">break</span>
+    <span class="kw">else</span>:
+        <span class="bi">print</span>(&quot;  ❌ L&<span class="cmt">#x27;âge doit être entre 0 et 120.&quot;)</span></pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--or-l);color:var(--or);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 2.10</span>
+      <span class="cours-title" style="display:inline">Jeu de Devinette</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p><code>randint(1, 100)</code> + indices Plus grand / Plus petit + compteur de tentatives.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div>Le bloc <code>else</code> du <code>while</code> s'exécute quand la boucle se termine sans <code>break</code>.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_2_10.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">import</span> random
+
+secret         = random.randint(<span class="num">1</span>, <span class="num">100</span>)
+tentatives     = <span class="num">0</span>
+MAX_TENTATIVES = <span class="num">10</span>
+
+<span class="bi">print</span>(&quot;🎯 Devinez le nombre entre <span class="num">1</span> et <span class="num">100</span> !&quot;)
+
+<span class="kw">while</span> tentatives &lt; MAX_TENTATIVES:
+    <span class="kw">try</span>:
+        guess = <span class="bi">int</span>(<span class="bi">input</span>(f&quot;Tentative {tentatives+<span class="num">1</span>}/{MAX_TENTATIVES} : &quot;))
+        tentatives <span class="op">+=</span> <span class="num">1</span>
+        <span class="kw">if</span> guess <span class="op">==</span> secret:
+            <span class="bi">print</span>(f&quot;🏆 Bravo ! Trouvé en {tentatives} tentative(s) !&quot;)
+            <span class="kw">break</span>
+        <span class="kw">elif</span> guess &lt; secret:
+            <span class="bi">print</span>(&quot;  📈 Plus grand !&quot;)
+        <span class="kw">else</span>:
+            <span class="bi">print</span>(&quot;  📉 Plus petit !&quot;)
+    <span class="kw">except</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">ValueError</span>:
+        <span class="bi">print</span>(&quot;  ❌ Entrez un nombre entier.&quot;)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(f&quot;😞 Perdu ! Le nombre était {secret}.&quot;)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--or-l);color:var(--or);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 2.12</span>
+      <span class="cours-title" style="display:inline">Menu Interactif</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Boucle infinie avec <code>break</code> sur l'option Quitter.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_2_12.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">while</span> <span class="kw">True</span>:
+    <span class="bi">print</span>(&quot;\n&quot; + &quot;─&quot; * <span class="num">28</span>)
+    <span class="bi">print</span>(&quot;     MENU PRINCIPAL&quot;)
+    <span class="bi">print</span>(&quot;─&quot; * <span class="num">28</span>)
+    <span class="bi">print</span>(&quot;  <span class="num">1</span>. Afficher un message&quot;)
+    <span class="bi">print</span>(&quot;  <span class="num">2</span>. Calculer le carré&quot;)
+    <span class="bi">print</span>(&quot;  <span class="num">3</span>. Compter jusqu&<span class="cmt">#x27;à 10&quot;)</span>
+    <span class="bi">print</span>(&quot;  <span class="num">4</span>. Quitter&quot;)
+    <span class="bi">print</span>(&quot;─&quot; * <span class="num">28</span>)
+    choix = <span class="bi">input</span>(&quot;Choix (<span class="num">1</span>-<span class="num">4</span>) : &quot;).strip()
+
+    <span class="kw">if</span> choix <span class="op">==</span> &quot;<span class="num">1</span>&quot;:
+        <span class="bi">print</span>(f&quot;  📢 {<span class="bi">input</span>(&<span class="cmt">#x27;Message : &#x27;)}&quot;)</span>
+    <span class="kw">elif</span> choix <span class="op">==</span> &quot;<span class="num">2</span>&quot;:
+        <span class="kw">try</span>:
+            n = <span class="bi">float</span>(<span class="bi">input</span>(&quot;Nombre : &quot;))
+            <span class="bi">print</span>(f&quot;  {n}² = {n<span class="op">**</span><span class="num">2</span>}&quot;)
+        <span class="kw">except</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">ValueError</span>:
+            <span class="bi">print</span>(&quot;  ❌ Nombre invalide.&quot;)
+    <span class="kw">elif</span> choix <span class="op">==</span> &quot;<span class="num">3</span>&quot;:
+        <span class="bi">print</span>(&quot;  &quot;, end=&quot;&quot;)
+        <span class="kw">for</span> i <span class="kw">in</span> <span class="bi">range</span>(<span class="num">1</span>, <span class="num">11</span>):
+            <span class="bi">print</span>(i, end=&quot; &quot;)
+        <span class="bi">print</span>()
+    <span class="kw">elif</span> choix <span class="op">==</span> &quot;<span class="num">4</span>&quot;:
+        <span class="bi">print</span>(&quot;  👋 Au revoir !&quot;)
+        <span class="kw">break</span>
+    <span class="kw">else</span>:
+        <span class="bi">print</span>(&quot;  ❌ Choix invalide.&quot;)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 2.13</span>
+      <span class="cours-title" style="display:inline">Table de Multiplication</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p><code>range(1, 11)</code> pour itérer de 1 à 10, affichage formaté avec <code>:</code>.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_2_13.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre>n = <span class="bi">int</span>(<span class="bi">input</span>(&quot;Entrez un nombre : &quot;))
+<span class="bi">print</span>(f&quot;\n{&<span class="cmt">#x27;─&#x27;*24}&quot;)</span>
+<span class="bi">print</span>(f&quot;     TABLE DE {n}&quot;)
+<span class="bi">print</span>(f&quot;{&<span class="cmt">#x27;─&#x27;*24}&quot;)</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="bi">range</span>(<span class="num">1</span>, <span class="num">11</span>):
+    <span class="bi">print</span>(f&quot;  {n:3d} × {i:2d} = {n * i:5d}&quot;)
+<span class="bi">print</span>(f&quot;{&<span class="cmt">#x27;─&#x27;*24}&quot;)</span></pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 2.15</span>
+      <span class="cours-title" style="display:inline">Factorielle</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Accumulateur initialisé à 1 multiplié à chaque tour de boucle.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div>Note : <code>range(1, n+1)</code> va bien jusqu'à <code>n</code> inclus.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_2_15.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre>n = <span class="bi">int</span>(<span class="bi">input</span>(&quot;Entrez N : &quot;))
+<span class="kw">if</span> n &lt; <span class="num">0</span>:
+    <span class="bi">print</span>(&quot;❌ La factorielle n&<span class="cmt">#x27;est pas définie pour les négatifs.&quot;)</span>
+<span class="kw">else</span>:
+    factorielle = <span class="num">1</span>
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="bi">range</span>(<span class="num">1</span>, n + <span class="num">1</span>):
+        factorielle <span class="op">*=</span> i
+    <span class="bi">print</span>(f&quot;{n}! = {factorielle}&quot;)
+
+<span class="cmt"># Vérifications : 0!=1  |  5!=120  |  10!=3628800</span></pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--or-l);color:var(--or);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 2.19</span>
+      <span class="cours-title" style="display:inline">Sapin de Noël</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Formule : <code>espaces = h - i</code> et <code>étoiles = 2*i - 1</code>.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div>À chaque ligne <code>i</code> : <code>h-i</code> espaces devant, <code>2i-1</code> étoiles.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_2_19.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre>h = <span class="bi">int</span>(<span class="bi">input</span>(&quot;Hauteur : &quot;))
+<span class="kw">for</span> i <span class="kw">in</span> <span class="bi">range</span>(<span class="num">1</span>, h + <span class="num">1</span>):
+    <span class="bi">print</span>(&quot; &quot; * (h - i) + &quot;*&quot; * (<span class="num">2</span> * i - <span class="num">1</span>))
+
+<span class="cmt"># Pour h=5 :</span>
+<span class="cmt">#     *</span>
+<span class="cmt">#    ***</span>
+<span class="cmt">#   *****</span>
+<span class="cmt">#  *******</span>
+<span class="cmt"># *********</span></pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--or-l);color:var(--or);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 2.20</span>
+      <span class="cours-title" style="display:inline">FizzBuzz Classique</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Tester d'abord <code>% 15</code> (divisible par 3 ET 5) avant les cas simples.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div>Si on testait <code>% 3</code> en premier, les multiples de 15 afficheraient juste "Fizz" et jamais "FizzBuzz".</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_2_20.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">for</span> i <span class="kw">in</span> <span class="bi">range</span>(<span class="num">1</span>, <span class="num">101</span>):
+    <span class="kw">if</span>   i % <span class="num">15</span> <span class="op">==</span> <span class="num">0</span>: <span class="bi">print</span>(&quot;FizzBuzz&quot;)
+    <span class="kw">elif</span> i % <span class="num">3</span>  <span class="op">==</span> <span class="num">0</span>: <span class="bi">print</span>(&quot;Fizz&quot;)
+    <span class="kw">elif</span> i % <span class="num">5</span>  <span class="op">==</span> <span class="num">0</span>: <span class="bi">print</span>(&quot;Buzz&quot;)
+    <span class="kw">else</span>:              <span class="bi">print</span>(i)</pre>
+</div>
+  </div>
+</div></section>
+
+<section class="day-section d3" id="corr-jour3">
+  <div class="day-header">
+    <div class="day-num">3</div>
+    <div>
+      <div class="section-label">Corrections · Jour 3</div>
+      <h2 class="day-title">Fonctions</h2>
+      <p class="day-subtitle">def · Paramètres · return · Scope · Lambda · *args/**kwargs</p>
+    </div>
+  </div>
+  <div class="progress-wrap"><div class="progress-bar" style="width:30%"></div></div>
+  <div class="section-label">Objectifs vérifiés</div>
+  <div class="objectifs-grid"><div class="objectif-item"><span class="check">✓</span>Définir et appeler des fonctions</div><div class="objectif-item"><span class="check">✓</span>Paramètres, valeurs par défaut</div><div class="objectif-item"><span class="check">✓</span>*args pour nombre variable d'arguments</div><div class="objectif-item"><span class="check">✓</span>Fonctions lambda</div></div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 3.3</span>
+      <span class="cours-title" style="display:inline">Calculatrice Modulaire</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>4 fonctions distinctes, la division gère le cas division par zéro.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_3_3.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">def</span> <span class="fn">additionner</span>(a, b): <span class="kw">return</span> a + b
+<span class="kw">def</span> <span class="fn">soustraire</span>(a, b):  <span class="kw">return</span> a - b
+<span class="kw">def</span> <span class="fn">multiplier</span>(a, b):  <span class="kw">return</span> a * b
+
+<span class="kw">def</span> <span class="fn">diviser</span>(a, b):
+    <span class="kw">if</span> b <span class="op">==</span> <span class="num">0</span>:
+        <span class="kw">return</span> &quot;Erreur : division par zéro !&quot;
+    <span class="kw">return</span> a / b
+
+a = <span class="bi">float</span>(<span class="bi">input</span>(&quot;Premier nombre  : &quot;))
+b = <span class="bi">float</span>(<span class="bi">input</span>(&quot;Deuxième nombre : &quot;))
+<span class="bi">print</span>(f&quot;{a} + {b} = {additionner(a, b)}&quot;)
+<span class="bi">print</span>(f&quot;{a} - {b} = {soustraire(a, b)}&quot;)
+<span class="bi">print</span>(f&quot;{a} * {b} = {multiplier(a, b)}&quot;)
+<span class="bi">print</span>(f&quot;{a} / {b} = {diviser(a, b)}&quot;)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 3.6</span>
+      <span class="cours-title" style="display:inline">Calculateur de Moyenne (*args)</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p><code>*notes</code> capte n'importe combien d'arguments dans un tuple.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div><code>if not notes</code> est vrai quand le tuple est vide.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_3_6.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">def</span> <span class="fn">calculer_moyenne</span>(*notes):
+    &quot;&quot;&quot;Retourne la moyenne d&<span class="cmt">#x27;un nombre quelconque de notes.&quot;&quot;&quot;</span>
+    <span class="kw">if</span> <span class="kw">not</span> notes:
+        <span class="kw">return</span> &quot;Aucune note fournie.&quot;
+    <span class="kw">return</span> <span class="bi">sum</span>(notes) / <span class="bi">len</span>(notes)
+
+<span class="bi">print</span>(calculer_moyenne(<span class="num">15</span>, <span class="num">18</span>, <span class="num">12</span>, <span class="num">16</span>))   <span class="cmt"># 15.25</span>
+<span class="bi">print</span>(calculer_moyenne(<span class="num">10</span>))               <span class="cmt"># 10.0</span>
+<span class="bi">print</span>(calculer_moyenne())                 <span class="cmt"># message d&#x27;erreur</span></pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--or-l);color:var(--or);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 3.12</span>
+      <span class="cours-title" style="display:inline">Validateur de Mot de Passe</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Quatre règles vérifiées avec <code>any()</code> et des expressions génératrices.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div><code>any(c.isupper() for c in mdp)</code> retourne <code>True</code> dès qu'une majuscule est trouvée.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_3_12.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">def</span> <span class="fn">valider_mot_de_passe</span>(mdp):
+    &quot;&quot;&quot;Vérifie : &gt;=<span class="num">8</span> chars, &gt;=<span class="num">1</span> maj, &gt;=<span class="num">1</span> <span class="bi">min</span>, &gt;=<span class="num">1</span> chiffre.&quot;&quot;&quot;
+    <span class="kw">if</span> <span class="bi">len</span>(mdp) &lt; <span class="num">8</span>:
+        <span class="kw">return</span> <span class="kw">False</span>, &quot;❌ Trop court (minimum <span class="num">8</span> caractères)&quot;
+    <span class="kw">if</span> <span class="kw">not</span> <span class="bi">any</span>(c.isupper() <span class="kw">for</span> c <span class="kw">in</span> mdp):
+        <span class="kw">return</span> <span class="kw">False</span>, &quot;❌ Aucune lettre majuscule&quot;
+    <span class="kw">if</span> <span class="kw">not</span> <span class="bi">any</span>(c.islower() <span class="kw">for</span> c <span class="kw">in</span> mdp):
+        <span class="kw">return</span> <span class="kw">False</span>, &quot;❌ Aucune lettre minuscule&quot;
+    <span class="kw">if</span> <span class="kw">not</span> <span class="bi">any</span>(c.isdigit() <span class="kw">for</span> c <span class="kw">in</span> mdp):
+        <span class="kw">return</span> <span class="kw">False</span>, &quot;❌ Aucun chiffre&quot;
+    <span class="kw">return</span> <span class="kw">True</span>, &quot;✅ Mot de passe valide !&quot;
+
+<span class="kw">for</span> test <span class="kw">in</span> [&quot;abc&quot;, &quot;password&quot;, &quot;Password&quot;, &quot;Password1&quot;]:
+    ok, msg = valider_mot_de_passe(test)
+    <span class="bi">print</span>(f&quot;  &<span class="cmt">#x27;{test:&lt;12}&#x27; -&gt; {msg}&quot;)</span></pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--or-l);color:var(--or);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 3.13</span>
+      <span class="cours-title" style="display:inline">Générateur de Fibonacci</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Initialisation avec [0, 1] puis ajout de la somme des deux derniers.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div><code>suite[-1]</code> = dernier élément, <code>suite[-2]</code> = avant-dernier.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_3_13.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">def</span> <span class="fn">fibonacci</span>(n):
+    &quot;&quot;&quot;Retourne les n premiers termes de Fibonacci.&quot;&quot;&quot;
+    <span class="kw">if</span> n &lt;= <span class="num">0</span>: <span class="kw">return</span> []
+    <span class="kw">if</span> n <span class="op">==</span> <span class="num">1</span>: <span class="kw">return</span> [<span class="num">0</span>]
+    suite = [<span class="num">0</span>, <span class="num">1</span>]
+    <span class="kw">for</span> _ <span class="kw">in</span> <span class="bi">range</span>(<span class="num">2</span>, n):
+        suite.append(suite[-<span class="num">1</span>] + suite[-<span class="num">2</span>])
+    <span class="kw">return</span> suite
+
+<span class="bi">print</span>(fibonacci(<span class="num">10</span>))  <span class="cmt"># [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]</span>
+<span class="bi">print</span>(fibonacci(<span class="num">1</span>))   <span class="cmt"># [0]</span>
+<span class="bi">print</span>(fibonacci(<span class="num">0</span>))   <span class="cmt"># []</span></pre>
+</div>
+  </div>
+</div></section>
+
+<section class="day-section d4" id="corr-jour4">
+  <div class="day-header">
+    <div class="day-num">4</div>
+    <div>
+      <div class="section-label">Corrections · Jour 4</div>
+      <h2 class="day-title">Listes & Tuples</h2>
+      <p class="day-subtitle">Listes · Méthodes · Slicing · List Comprehensions · Tuples</p>
+    </div>
+  </div>
+  <div class="progress-wrap"><div class="progress-bar" style="width:40%"></div></div>
+  <div class="section-label">Objectifs vérifiés</div>
+  <div class="objectifs-grid"><div class="objectif-item"><span class="check">✓</span>Créer et manipuler des listes</div><div class="objectif-item"><span class="check">✓</span>Indexation et slicing</div><div class="objectif-item"><span class="check">✓</span>List comprehensions</div><div class="objectif-item"><span class="check">✓</span>Tuples et unpacking</div></div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 4.1</span>
+      <span class="cours-title" style="display:inline">Gestion de Courses</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p><code>insert()</code> ajoute à un index précis, <code>del</code> supprime par index.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_4_1.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre>courses = [&quot;Riz&quot;, &quot;Sucre&quot;, &quot;Huile&quot;, &quot;Farine&quot;, &quot;Sel&quot;]
+<span class="bi">print</span>(&quot;Initial     :&quot;, courses)
+
+courses.insert(<span class="num">1</span>, &quot;Lait&quot;)       <span class="cmt"># Insère en position 1</span>
+<span class="bi">print</span>(&quot;+ Lait idx1 :&quot;, courses)
+
+del courses[<span class="num">2</span>]                  <span class="cmt"># Supprime le 3ème élément</span>
+<span class="bi">print</span>(&quot;- idx2      :&quot;, courses)
+
+<span class="bi">print</span>(&quot;&<span class="cmt">#x27;Eau&#x27; présent ?&quot;, &quot;Eau&quot; in courses)  # False</span></pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 4.2</span>
+      <span class="cours-title" style="display:inline">Manipulation de Nombres</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Tri, statistiques avec les fonctions intégrées Python.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_4_2.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre>nombres = [<span class="num">12</span>, <span class="num">5</span>, <span class="num">23</span>, <span class="num">7</span>, <span class="num">15</span>, <span class="num">8</span>, <span class="num">30</span>, <span class="num">4</span>]
+nombres.sort()
+<span class="bi">print</span>(f&quot;Triée   : {nombres}&quot;)
+<span class="bi">print</span>(f&quot;Max     : {<span class="bi">max</span>(nombres)}&quot;)
+<span class="bi">print</span>(f&quot;Min     : {<span class="bi">min</span>(nombres)}&quot;)
+<span class="bi">print</span>(f&quot;Somme   : {<span class="bi">sum</span>(nombres)}&quot;)
+<span class="bi">print</span>(f&quot;Moyenne : {<span class="bi">sum</span>(nombres)/<span class="bi">len</span>(nombres):.2f}&quot;)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 4.7</span>
+      <span class="cours-title" style="display:inline">List Comprehensions Practice</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>4 comprehensions : carrés, multiples, conversion, booléens.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_4_7.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="cmt"># Carrés de 0 à 9</span>
+carres = [x<span class="op">**</span><span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="bi">range</span>(<span class="num">10</span>)]
+<span class="bi">print</span>(&quot;Carrés      :&quot;, carres)
+
+<span class="cmt"># Multiples de 3 jusqu&#x27;à 30</span>
+mult3 = [x <span class="kw">for</span> x <span class="kw">in</span> <span class="bi">range</span>(<span class="num">0</span>, <span class="num">31</span>, <span class="num">3</span>)]
+<span class="bi">print</span>(&quot;Multiples <span class="num">3</span> :&quot;, mult3)
+
+<span class="cmt"># Conversion [&quot;1&quot;,&quot;2&quot;,&quot;3&quot;] -&gt; [1, 2, 3]</span>
+int_nums = [<span class="bi">int</span>(x) <span class="kw">for</span> x <span class="kw">in</span> [&quot;<span class="num">1</span>&quot;, &quot;<span class="num">2</span>&quot;, &quot;<span class="num">3</span>&quot;]]
+<span class="bi">print</span>(&quot;Conversion  :&quot;, int_nums)
+
+<span class="cmt"># Booléens (&gt; 5)</span>
+valeurs  = [<span class="num">3</span>, <span class="num">7</span>, <span class="num">1</span>, <span class="num">9</span>, <span class="num">4</span>, <span class="num">6</span>]
+bool_lst = [x &gt; <span class="num">5</span> <span class="kw">for</span> x <span class="kw">in</span> valeurs]
+<span class="bi">print</span>(&quot;Booléens &gt;<span class="num">5</span> :&quot;, bool_lst)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 4.9</span>
+      <span class="cours-title" style="display:inline">Retours Multiples avec Tuple</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Une fonction retourne un tuple que l'on déstructure à l'appel.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_4_9.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">def</span> <span class="fn">calculer_stats_liste</span>(nombres):
+    &quot;&quot;&quot;Retourne (<span class="bi">min</span>, <span class="bi">max</span>, somme, moyenne) sous forme de <span class="bi">tuple</span>.&quot;&quot;&quot;
+    <span class="kw">if</span> <span class="kw">not</span> nombres:
+        <span class="kw">return</span> <span class="kw">None</span>
+    <span class="kw">return</span> (<span class="bi">min</span>(nombres), <span class="bi">max</span>(nombres), <span class="bi">sum</span>(nombres), <span class="bi">sum</span>(nombres) / <span class="bi">len</span>(nombres))
+
+stats = calculer_stats_liste([<span class="num">12</span>, <span class="num">5</span>, <span class="num">23</span>, <span class="num">7</span>, <span class="num">15</span>, <span class="num">8</span>, <span class="num">30</span>, <span class="num">4</span>])
+mini, maxi, somme, moyenne = stats  <span class="cmt"># unpacking du tuple</span>
+<span class="bi">print</span>(f&quot;Min={mini}, Max={maxi}, Somme={somme}, Moy={moyenne:.2f}&quot;)</pre>
+</div>
+  </div>
+</div></section>
+
+<section class="day-section d5" id="corr-jour5">
+  <div class="day-header">
+    <div class="day-num">5</div>
+    <div>
+      <div class="section-label">Corrections · Jour 5</div>
+      <h2 class="day-title">Dictionnaires & Sets</h2>
+      <p class="day-subtitle">Paires clé-valeur · Méthodes · Dict Comprehensions · Ensembles</p>
+    </div>
+  </div>
+  <div class="progress-wrap"><div class="progress-bar" style="width:50%"></div></div>
+  <div class="section-label">Objectifs vérifiés</div>
+  <div class="objectifs-grid"><div class="objectif-item"><span class="check">✓</span>Créer et parcourir des dictionnaires</div><div class="objectif-item"><span class="check">✓</span>Dict comprehensions</div><div class="objectif-item"><span class="check">✓</span>Opérations ensemblistes (|, &, -)</div><div class="objectif-item"><span class="check">✓</span>Dédoublonnage</div></div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 5.3</span>
+      <span class="cours-title" style="display:inline">Compteur de Mots</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p><code>dict.get(mot, 0) + 1</code> : valeur par défaut 0 si le mot est absent.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_5_3.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre>phrase   = &quot;le chien mange le repas et le chat mange aussi&quot;
+mots     = phrase.lower().split()
+compteur = {}
+
+<span class="kw">for</span> mot <span class="kw">in</span> mots:
+    compteur[mot] = compteur.get(mot, <span class="num">0</span>) + <span class="num">1</span>
+
+<span class="cmt"># Tri par fréquence décroissante</span>
+<span class="kw">for</span> mot, nb <span class="kw">in</span> <span class="bi">sorted</span>(compteur.items(), key=<span class="kw">lambda</span> x: x[<span class="num">1</span>], reverse=<span class="kw">True</span>):
+    <span class="bi">print</span>(f&quot;  {mot:&lt;<span class="num">12</span>} : {nb}&quot;)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 5.8</span>
+      <span class="cours-title" style="display:inline">Opérations Ensemblistes</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Les 4 opérations sur les ensembles Python : union, intersection, différence, symétrique.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_5_8.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre>groupe_a = {&quot;Alice&quot;, &quot;Bob&quot;, &quot;Charlie&quot;, &quot;Diana&quot;, &quot;Eve&quot;}
+groupe_b = {&quot;Charlie&quot;, &quot;Diana&quot;, &quot;Frank&quot;, &quot;Grace&quot;, &quot;Heidi&quot;}
+
+<span class="bi">print</span>(&quot;Union          :&quot;, groupe_a | groupe_b)
+<span class="bi">print</span>(&quot;Intersection   :&quot;, groupe_a &amp; groupe_b)
+<span class="bi">print</span>(&quot;Uniquement A   :&quot;, groupe_a - groupe_b)
+<span class="bi">print</span>(&quot;Uniquement B   :&quot;, groupe_b - groupe_a)
+<span class="bi">print</span>(&quot;Dans un seul   :&quot;, groupe_a ^ groupe_b)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--or-l);color:var(--or);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 5.9</span>
+      <span class="cours-title" style="display:inline">Dédoublonnage avec Ordre Préservé</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Un <code>set()</code> suit les éléments vus ; <code>list</code> conserve l'ordre.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div>Simple <code>list(set(liste))</code> supprimerait bien les doublons mais perdrait l'ordre.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_5_9.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">def</span> <span class="fn">dedoublonner</span>(liste):
+    &quot;&quot;&quot;Enlève les doublons EN PRÉSERVANT l&<span class="cmt">#x27;ordre d&#x27;apparition.&quot;&quot;&quot;</span>
+    vus      = <span class="bi">set</span>()
+    resultat = []
+    <span class="kw">for</span> element <span class="kw">in</span> liste:
+        <span class="kw">if</span> element <span class="kw">not</span> <span class="kw">in</span> vus:
+            vus.add(element)
+            resultat.append(element)
+    <span class="kw">return</span> resultat
+
+test = [<span class="num">3</span>, <span class="num">1</span>, <span class="num">4</span>, <span class="num">1</span>, <span class="num">5</span>, <span class="num">9</span>, <span class="num">2</span>, <span class="num">6</span>, <span class="num">5</span>, <span class="num">3</span>, <span class="num">5</span>]
+<span class="bi">print</span>(&quot;Original    :&quot;, test)
+<span class="bi">print</span>(&quot;Dédoublonné :&quot;, dedoublonner(test))
+<span class="cmt"># [3, 1, 4, 5, 9, 2, 6]  — ordre préservé !</span></pre>
+</div>
+  </div>
+</div></section>
+
+<section class="day-section d6" id="corr-jour6">
+  <div class="day-header">
+    <div class="day-num">6</div>
+    <div>
+      <div class="section-label">Corrections · Jour 6</div>
+      <h2 class="day-title">Fichiers & Exceptions</h2>
+      <p class="day-subtitle">Lecture/Écriture · CSV · JSON · try/except · pathlib</p>
+    </div>
+  </div>
+  <div class="progress-wrap"><div class="progress-bar" style="width:60%"></div></div>
+  <div class="section-label">Objectifs vérifiés</div>
+  <div class="objectifs-grid"><div class="objectif-item"><span class="check">✓</span>Lire / écrire des fichiers texte</div><div class="objectif-item"><span class="check">✓</span>Modules csv et json</div><div class="objectif-item"><span class="check">✓</span>try/except/else/finally</div><div class="objectif-item"><span class="check">✓</span>Gestion des erreurs courantes</div></div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 6.1</span>
+      <span class="cours-title" style="display:inline">Créer un Journal (Diary)</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Mode <code>"a"</code> pour ajouter sans écraser, <code>"r"</code> pour lire.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div>Toujours utiliser <code>with open(...)</code> — le fichier est fermé automatiquement.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_6_1.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">from</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">datetime</span> <span class="kw">import</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">datetime</span>
+
+<span class="kw">def</span> <span class="fn">ajouter_entree</span>(fichier=&quot;journal.txt&quot;):
+    entree = <span class="bi">input</span>(&quot;Note du jour : &quot;)
+    date   = <span <span class="kw">class</span<span class="op">>=</span>"cls">datetime</span>.now().strftime(&quot;%d/%m/%Y %H:%M&quot;)
+    <span class="kw">with</span> <span class="bi">open</span>(fichier, &quot;a&quot;, encoding=&quot;utf-<span class="num">8</span>&quot;) <span class="kw">as</span> f:
+        f.write(f&quot;[{date}] {entree}\n&quot;)
+    <span class="bi">print</span>(&quot;✅ Entrée ajoutée !&quot;)
+
+<span class="kw">def</span> <span class="fn">lire_journal</span>(fichier=&quot;journal.txt&quot;):
+    <span class="kw">try</span>:
+        <span class="kw">with</span> <span class="bi">open</span>(fichier, &quot;r&quot;, encoding=&quot;utf-<span class="num">8</span>&quot;) <span class="kw">as</span> f:
+            contenu = f.read()
+        <span class="bi">print</span>(&quot;─── JOURNAL ───&quot;)
+        <span class="bi">print</span>(contenu <span class="kw">if</span> contenu <span class="kw">else</span> &quot;📔 Journal vide.&quot;)
+    <span class="kw">except</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">FileNotFoundError</span>:
+        <span class="bi">print</span>(&quot;📔 Aucun journal trouvé.&quot;)
+
+ajouter_entree()
+lire_journal()</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 6.2</span>
+      <span class="cours-title" style="display:inline">Compteur de Mots dans un Fichier</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Lecture complète puis comptage avec <code>splitlines()</code> et <code>split()</code>.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_6_2.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">def</span> <span class="fn">analyser_fichier</span>(chemin):
+    &quot;&quot;&quot;Retourne {lignes, mots, caracteres}.&quot;&quot;&quot;
+    <span class="kw">try</span>:
+        <span class="kw">with</span> <span class="bi">open</span>(chemin, &quot;r&quot;, encoding=&quot;utf-<span class="num">8</span>&quot;) <span class="kw">as</span> f:
+            contenu = f.read()
+        <span class="kw">return</span> {
+            &quot;lignes&quot;    : <span class="bi">len</span>(contenu.splitlines()),
+            &quot;mots&quot;      : <span class="bi">len</span>(contenu.split()),
+            &quot;caracteres&quot;: <span class="bi">len</span>(contenu)
+        }
+    <span class="kw">except</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">FileNotFoundError</span>:
+        <span class="bi">print</span>(f&quot;❌ Fichier &<span class="cmt">#x27;{chemin}&#x27; introuvable.&quot;)</span>
+        <span class="kw">return</span> <span class="kw">None</span>
+
+stats = analyser_fichier(&quot;mon_texte.txt&quot;)
+<span class="kw">if</span> stats:
+    <span class="bi">print</span>(f&quot;Lignes     : {stats[&<span class="cmt">#x27;lignes&#x27;]}&quot;)</span>
+    <span class="bi">print</span>(f&quot;Mots       : {stats[&<span class="cmt">#x27;mots&#x27;]}&quot;)</span>
+    <span class="bi">print</span>(f&quot;Caractères : {stats[&<span class="cmt">#x27;caracteres&#x27;]}&quot;)</span></pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 6.4</span>
+      <span class="cours-title" style="display:inline">Gestionnaire de Notes CSV</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>DictWriter/DictReader pour lire et écrire des CSV structurés.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_6_4.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">import</span> csv
+<span class="kw">from</span> pathlib <span class="kw">import</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">Path</span>
+
+FICHIER = &quot;notes.csv&quot;
+
+<span class="kw">def</span> <span class="fn">ajouter_note_csv</span>(nom, matiere, note):
+    existe = <span <span class="kw">class</span<span class="op">>=</span>"cls">Path</span>(FICHIER).exists()
+    <span class="kw">with</span> <span class="bi">open</span>(FICHIER, &quot;a&quot;, newline=&quot;&quot;, encoding=&quot;utf-<span class="num">8</span>&quot;) <span class="kw">as</span> f:
+        w = csv.writer(f)
+        <span class="kw">if</span> <span class="kw">not</span> existe:
+            w.writerow([&quot;Nom&quot;, &quot;Matiere&quot;, &quot;Note&quot;])
+        w.writerow([nom, matiere, note])
+
+<span class="kw">def</span> <span class="fn">lire_notes_csv</span>():
+    <span class="kw">try</span>:
+        <span class="kw">with</span> <span class="bi">open</span>(FICHIER, &quot;r&quot;, encoding=&quot;utf-<span class="num">8</span>&quot;) <span class="kw">as</span> f:
+            <span class="kw">for</span> ligne <span class="kw">in</span> csv.DictReader(f):
+                <span class="bi">print</span>(f&quot;  {ligne[&<span class="cmt">#x27;Nom&#x27;]:&lt;15} {ligne[&#x27;Matiere&#x27;]:&lt;15} {ligne[&#x27;Note&#x27;]}&quot;)</span>
+    <span class="kw">except</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">FileNotFoundError</span>:
+        <span class="bi">print</span>(&quot;❌ Aucun fichier de notes.&quot;)
+
+<span class="kw">def</span> <span class="fn">calculer_moyenne_etudiant</span>(nom):
+    notes = []
+    <span class="kw">with</span> <span class="bi">open</span>(FICHIER, &quot;r&quot;, encoding=&quot;utf-<span class="num">8</span>&quot;) <span class="kw">as</span> f:
+        <span class="kw">for</span> l <span class="kw">in</span> csv.DictReader(f):
+            <span class="kw">if</span> l[&quot;Nom&quot;] <span class="op">==</span> nom:
+                notes.append(<span class="bi">float</span>(l[&quot;Note&quot;]))
+    <span class="kw">return</span> <span class="bi">sum</span>(notes) / <span class="bi">len</span>(notes) <span class="kw">if</span> notes <span class="kw">else</span> <span class="kw">None</span>
+
+ajouter_note_csv(&quot;Alice&quot;, &quot;Maths&quot;, <span class="num">16</span>)
+ajouter_note_csv(&quot;Alice&quot;, &quot;Physique&quot;, <span class="num">14</span>)
+lire_notes_csv()
+<span class="bi">print</span>(f&quot;Moyenne Alice : {calculer_moyenne_etudiant(&<span class="cmt">#x27;Alice&#x27;):.2f}&quot;)</span></pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 6.5</span>
+      <span class="cours-title" style="display:inline">Base de Données JSON Persistante</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p><code>json.load()</code> au chargement, <code>json.dump()</code> à la sauvegarde.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div><code>ensure_ascii=False</code> permet d'enregistrer les caractères accentués correctement.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_6_5.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">import</span> json
+<span class="kw">from</span> pathlib <span class="kw">import</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">Path</span>
+
+FICHIER = &quot;contacts.json&quot;
+
+<span class="kw">def</span> <span class="fn">charger_base</span>():
+    <span class="kw">if</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">Path</span>(FICHIER).exists():
+        <span class="kw">with</span> <span class="bi">open</span>(FICHIER, &quot;r&quot;, encoding=&quot;utf-<span class="num">8</span>&quot;) <span class="kw">as</span> f:
+            <span class="kw">return</span> json.load(f)
+    <span class="kw">return</span> {}
+
+<span class="kw">def</span> <span class="fn">sauvegarder_base</span>(base):
+    <span class="kw">with</span> <span class="bi">open</span>(FICHIER, &quot;w&quot;, encoding=&quot;utf-<span class="num">8</span>&quot;) <span class="kw">as</span> f:
+        json.dump(base, f, indent=<span class="num">4</span>, ensure_ascii=<span class="kw">False</span>)
+
+<span class="kw">def</span> <span class="fn">ajouter_personne</span>(nom, age, ville):
+    base = charger_base()
+    base[nom] = {&quot;age&quot;: age, &quot;ville&quot;: ville}
+    sauvegarder_base(base)
+    <span class="bi">print</span>(f&quot;✅ {nom} ajouté(e).&quot;)
+
+<span class="kw">def</span> <span class="fn">rechercher_personne</span>(nom):
+    base = charger_base()
+    <span class="kw">if</span> nom <span class="kw">in</span> base:
+        p = base[nom]
+        <span class="bi">print</span>(f&quot;✅ {nom} : {p[&<span class="cmt">#x27;age&#x27;]} ans, {p[&#x27;ville&#x27;]}&quot;)</span>
+    <span class="kw">else</span>:
+        <span class="bi">print</span>(f&quot;❌ &<span class="cmt">#x27;{nom}&#x27; non trouvé(e).&quot;)</span>
+
+ajouter_personne(&quot;Alice&quot;, <span class="num">25</span>, &quot;Libreville&quot;)
+rechercher_personne(&quot;Alice&quot;)
+rechercher_personne(&quot;Charlie&quot;)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--or-l);color:var(--or);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 6.6</span>
+      <span class="cours-title" style="display:inline">Calculatrice Sécurisée</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>try/except/else/finally : chaque bloc a un rôle précis.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div><code>else</code> s'exécute uniquement si aucune exception n'a été levée. <code>finally</code> s'exécute dans tous les cas.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_6_6.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">def</span> <span class="fn">calculatrice_securisee</span>():
+    <span class="kw">try</span>:
+        a  = <span class="bi">float</span>(<span class="bi">input</span>(&quot;Premier nombre  : &quot;))
+        op = <span class="bi">input</span>(&quot;Opération (+,-,*,/) : &quot;).strip()
+        b  = <span class="bi">float</span>(<span class="bi">input</span>(&quot;Deuxième nombre : &quot;))
+
+        <span class="kw">if</span>   op <span class="op">==</span> &quot;+&quot;: resultat = a + b
+        <span class="kw">elif</span> op <span class="op">==</span> &quot;-&quot;: resultat = a - b
+        <span class="kw">elif</span> op <span class="op">==</span> &quot;*&quot;: resultat = a * b
+        <span class="kw">elif</span> op <span class="op">==</span> &quot;/&quot;: resultat = a / b
+        <span class="kw">else</span>: <span class="kw">raise</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">ValueError</span>(f&quot;Opération &<span class="cmt">#x27;{op}&#x27; inconnue.&quot;)</span>
+
+    <span class="kw">except</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">ValueError</span> <span class="kw">as</span> e:
+        <span class="bi">print</span>(f&quot;❌ Saisie invalide : {e}&quot;)
+    <span class="kw">except</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">ZeroDivisionError</span>:
+        <span class="bi">print</span>(&quot;❌ Division par zéro impossible !&quot;)
+    <span class="kw">else</span>:
+        <span class="bi">print</span>(f&quot;✅ {a} {op} {b} = {resultat}&quot;)  <span class="cmt"># si aucune erreur</span>
+    <span class="kw">finally</span>:
+        <span class="bi">print</span>(&quot;🔄 Calcul terminé.&quot;)              <span class="cmt"># toujours</span>
+
+calculatrice_securisee()</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 6.7</span>
+      <span class="cours-title" style="display:inline">Lecture Sécurisée de Fichier</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Trois types d'erreurs différents → trois messages différents.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_6_7.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">def</span> <span class="fn">lire_fichier_securise</span>(chemin):
+    <span class="kw">try</span>:
+        <span class="kw">with</span> <span class="bi">open</span>(chemin, &quot;r&quot;, encoding=&quot;utf-<span class="num">8</span>&quot;) <span class="kw">as</span> f:
+            contenu = f.read()
+        <span class="kw">if</span> <span class="kw">not</span> contenu:
+            <span class="bi">print</span>(&quot;⚠️  Le fichier est vide.&quot;)
+            <span class="kw">return</span> <span class="kw">None</span>
+        <span class="kw">return</span> contenu
+    <span class="kw">except</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">FileNotFoundError</span>:
+        <span class="bi">print</span>(f&quot;❌ Fichier &<span class="cmt">#x27;{chemin}&#x27; introuvable.&quot;)</span>
+    <span class="kw">except</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">PermissionError</span>:
+        <span class="bi">print</span>(f&quot;❌ Permission refusée pour &<span class="cmt">#x27;{chemin}&#x27;.&quot;)</span>
+    <span class="kw">except</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">UnicodeDecodeError</span>:
+        <span class="bi">print</span>(f&quot;❌ Erreur d&<span class="cmt">#x27;encodage — essayez encoding=&#x27;latin-1&#x27;.&quot;)</span>
+    <span class="kw">return</span> <span class="kw">None</span>
+
+contenu = lire_fichier_securise(&quot;mon_fichier.txt&quot;)
+<span class="kw">if</span> contenu:
+    <span class="bi">print</span>(contenu[:<span class="num">200</span>])</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--rouge-l);color:var(--rouge);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Soir 6.8</span>
+      <span class="cours-title" style="display:inline">Soir 6.8 — Analyseur de Log</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Filtrage par mots-clés avec <code>in</code>, dédoublonnage avec <code>set()</code>.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">soir_6_8.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">def</span> <span class="fn">analyser_log</span>(chemin):
+    <span class="kw">try</span>:
+        <span class="kw">with</span> <span class="bi">open</span>(chemin, &quot;r&quot;, encoding=&quot;utf-<span class="num">8</span>&quot;) <span class="kw">as</span> f:
+            lignes = f.readlines()
+    <span class="kw">except</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">FileNotFoundError</span>:
+        <span class="bi">print</span>(&quot;❌ Fichier log introuvable.&quot;)
+        <span class="kw">return</span>
+
+    erreurs   = [l <span class="kw">for</span> l <span class="kw">in</span> lignes <span class="kw">if</span> &quot;ERROR&quot;   <span class="kw">in</span> l]
+    warnings  = [l <span class="kw">for</span> l <span class="kw">in</span> lignes <span class="kw">if</span> &quot;WARNING&quot; <span class="kw">in</span> l]
+    msgs_uniq = <span class="bi">set</span>(l.strip() <span class="kw">for</span> l <span class="kw">in</span> erreurs)
+
+    <span class="bi">print</span>(f&quot;  Total lignes   : {<span class="bi">len</span>(lignes)}&quot;)
+    <span class="bi">print</span>(f&quot;  Erreurs        : {<span class="bi">len</span>(erreurs)}&quot;)
+    <span class="bi">print</span>(f&quot;  Avertissements : {<span class="bi">len</span>(warnings)}&quot;)
+    <span class="bi">print</span>(f&quot;  Erreurs uniques: {<span class="bi">len</span>(msgs_uniq)}&quot;)
+    <span class="kw">for</span> m <span class="kw">in</span> msgs_uniq:
+        <span class="bi">print</span>(f&quot;    -&gt; {m}&quot;)
+
+analyser_log(&quot;app.log&quot;)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--rouge-l);color:var(--rouge);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Soir 6.9</span>
+      <span class="cours-title" style="display:inline">Soir 6.9 — Fusion de Fichiers</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Boucle sur la liste de fichiers, gestion individuelle de chaque erreur.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">soir_6_9.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">def</span> <span class="fn">fusionner_fichiers</span>(fichiers, sortie):
+    &quot;&quot;&quot;Fusionne plusieurs fichiers texte en un seul.&quot;&quot;&quot;
+    <span class="kw">with</span> <span class="bi">open</span>(sortie, &quot;w&quot;, encoding=&quot;utf-<span class="num">8</span>&quot;) <span class="kw">as</span> f_out:
+        <span class="kw">for</span> chemin <span class="kw">in</span> fichiers:
+            <span class="kw">try</span>:
+                <span class="kw">with</span> <span class="bi">open</span>(chemin, &quot;r&quot;, encoding=&quot;utf-<span class="num">8</span>&quot;) <span class="kw">as</span> f_in:
+                    f_out.write(f&quot;<span class="op">==</span>= {chemin} <span class="op">==</span>=\n&quot;)
+                    f_out.write(f_in.read())
+                    f_out.write(&quot;\n\n&quot;)
+                <span class="bi">print</span>(f&quot;  ✅ &<span class="cmt">#x27;{chemin}&#x27; fusionné.&quot;)</span>
+            <span class="kw">except</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">FileNotFoundError</span>:
+                <span class="bi">print</span>(f&quot;  ⚠️  &<span class="cmt">#x27;{chemin}&#x27; introuvable — ignoré.&quot;)</span>
+            <span class="kw">except</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">PermissionError</span>:
+                <span class="bi">print</span>(f&quot;  ⚠️  Permission refusée pour &<span class="cmt">#x27;{chemin}&#x27; — ignoré.&quot;)</span>
+    <span class="bi">print</span>(f&quot;  ✅ Fusion terminée -&gt; &<span class="cmt">#x27;{sortie}&#x27;&quot;)</span>
+
+fusionner_fichiers([&quot;fichier1.txt&quot;, &quot;fichier2.txt&quot;], &quot;fusion.txt&quot;)</pre>
+</div>
+  </div>
+</div></section>
+
+<section class="day-section d7" id="corr-jour7">
+  <div class="day-header">
+    <div class="day-num">7</div>
+    <div>
+      <div class="section-label">Corrections · Jour 7</div>
+      <h2 class="day-title">Programmation Orientée Objet</h2>
+      <p class="day-subtitle">Classes · __init__ · Héritage · Encapsulation · Polymorphisme</p>
+    </div>
+  </div>
+  <div class="progress-wrap"><div class="progress-bar" style="width:70%"></div></div>
+  <div class="section-label">Objectifs vérifiés</div>
+  <div class="objectifs-grid"><div class="objectif-item"><span class="check">✓</span>Créer des classes et des objets</div><div class="objectif-item"><span class="check">✓</span>Encapsulation avec @property</div><div class="objectif-item"><span class="check">✓</span>Héritage avec super()</div><div class="objectif-item"><span class="check">✓</span>Polymorphisme et méthodes spéciales</div></div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 7.1</span>
+      <span class="cours-title" style="display:inline">Classe Voiture</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p><code>__init__</code> initialise les attributs, les méthodes agissent sur <code>self</code>.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div><code>__str__</code> est appelé automatiquement par <code>print()</code>.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_7_1.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">class</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">Voiture</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, marque, modele, annee):
+        self.marque = marque
+        self.modele = modele
+        self.annee  = annee
+
+    <span class="kw">def</span> <span class="fn">afficher_info</span>(self):
+        <span class="bi">print</span>(f&quot;  🚗 {self.marque} {self.modele} ({self.annee})&quot;)
+
+    <span class="kw">def</span> <span class="fn">calculer_age</span>(self):
+        <span class="kw">return</span> <span class="num">2025</span> - self.annee
+
+    <span class="kw">def</span> <span class="fn">__str__</span>(self):
+        <span class="kw">return</span> f&quot;<span <span class="kw">class</span<span class="op">>=</span>"cls">Voiture</span>({self.marque} {self.modele}, {self.annee})&quot;
+
+v1 = <span <span class="kw">class</span<span class="op">>=</span>"cls">Voiture</span>(&quot;Toyota&quot;, &quot;Corolla&quot;, <span class="num">2018</span>)
+v1.afficher_info()
+<span class="bi">print</span>(f&quot;  Âge : {v1.calculer_age()} ans&quot;)
+<span class="bi">print</span>(v1)         <span class="cmt"># appelle __str__</span></pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 7.2</span>
+      <span class="cours-title" style="display:inline">Classe Rectangle</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Trois méthodes + vérification carré avec comparaison des dimensions.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_7_2.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">class</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">Rectangle</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, longueur, largeur):
+        self.longueur = longueur
+        self.largeur  = largeur
+
+    <span class="kw">def</span> <span class="fn">calculer_aire</span>(self):
+        <span class="kw">return</span> self.longueur * self.largeur
+
+    <span class="kw">def</span> <span class="fn">calculer_perimetre</span>(self):
+        <span class="kw">return</span> <span class="num">2</span> * (self.longueur + self.largeur)
+
+    <span class="kw">def</span> <span class="fn">est_carre</span>(self):
+        <span class="kw">return</span> self.longueur <span class="op">==</span> self.largeur
+
+    <span class="kw">def</span> <span class="fn">__str__</span>(self):
+        <span class="kw">return</span> f&quot;<span <span class="kw">class</span<span class="op">>=</span>"cls">Rectangle</span>({self.longueur} x {self.largeur})&quot;
+
+r = <span <span class="kw">class</span<span class="op">>=</span>"cls">Rectangle</span>(<span class="num">6</span>, <span class="num">4</span>)
+<span class="bi">print</span>(f&quot;  {r}&quot;)
+<span class="bi">print</span>(f&quot;  Aire       : {r.calculer_aire()} cm²&quot;)
+<span class="bi">print</span>(f&quot;  Périmètre  : {r.calculer_perimetre()} cm&quot;)
+<span class="bi">print</span>(f&quot;  Carré ?    : {r.est_carre()}&quot;)
+<span class="bi">print</span>(f&quot;  Carré(<span class="num">5</span>,<span class="num">5</span>) : {<span <span class="kw">class</span<span class="op">>=</span>"cls">Rectangle</span>(<span class="num">5</span>, <span class="num">5</span>).est_carre()}&quot;)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 7.3</span>
+      <span class="cours-title" style="display:inline">Classe Etudiant avec Compteur</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Attribut de classe partagé + <code>@classmethod</code> pour y accéder.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_7_3.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">class</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">Etudiant</span>:
+    nombre_etudiants = <span class="num">0</span>   <span class="cmt"># attribut de CLASSE (partagé)</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, nom, prenom):
+        self.nom    = nom
+        self.prenom = prenom
+        self.notes  = []
+        <span <span class="kw">class</span<span class="op">>=</span>"cls">Etudiant</span>.nombre_etudiants <span class="op">+=</span> <span class="num">1</span>   <span class="cmt"># incrémente à chaque création</span>
+
+    <span class="kw">def</span> <span class="fn">ajouter_note</span>(self, note):
+        <span class="kw">if</span> <span class="num">0</span> &lt;= note &lt;= <span class="num">20</span>:
+            self.notes.append(note)
+        <span class="kw">else</span>:
+            <span class="bi">print</span>(f&quot;  ❌ Note {note} invalide.&quot;)
+
+    <span class="kw">def</span> <span class="fn">calculer_moyenne</span>(self):
+        <span class="kw">return</span> <span class="bi">sum</span>(self.notes) / <span class="bi">len</span>(self.notes) <span class="kw">if</span> self.notes <span class="kw">else</span> <span class="kw">None</span>
+
+    <span <span class="kw">class</span<span class="op">>=</span>"fn">@<span class="bi">classmethod</span></span>
+    <span class="kw">def</span> <span class="fn">afficher_total</span>(cls):
+        <span class="bi">print</span>(f&quot;  Total étudiants : {cls.nombre_etudiants}&quot;)
+
+    <span class="kw">def</span> <span class="fn">__str__</span>(self):
+        moy = self.calculer_moyenne()
+        <span class="kw">return</span> f&quot;{self.prenom} {self.nom} — Moy: {moy:.2f}&quot; <span class="kw">if</span> moy <span class="kw">else</span> f&quot;{self.prenom} {self.nom}&quot;
+
+e1 = <span <span class="kw">class</span<span class="op">>=</span>"cls">Etudiant</span>(&quot;Dupont&quot;, &quot;Alice&quot;)
+e1.ajouter_note(<span class="num">15</span>)
+e1.ajouter_note(<span class="num">18</span>)
+e1.ajouter_note(<span class="num">25</span>)   <span class="cmt"># refusée</span>
+<span class="bi">print</span>(e1)
+<span <span class="kw">class</span<span class="op">>=</span>"cls">Etudiant</span>.afficher_total()</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--or-l);color:var(--or);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 7.5</span>
+      <span class="cours-title" style="display:inline">Classe Produit avec Stock</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p><code>@property</code> pour le getter, <code>@prix.setter</code> pour la validation.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div>Le préfixe <code>_</code> signale un attribut protégé par convention (pas d'accès direct).</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_7_5.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">class</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">Produit</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, nom, prix, stock=<span class="num">0</span>):
+        self.nom    = nom
+        self._prix  = prix   <span class="cmt"># attribut &quot;protégé&quot;</span>
+        self._stock = stock
+
+    <span <span class="kw">class</span<span class="op">>=</span>"fn">@<span class="bi">property</span></span>
+    <span class="kw">def</span> <span class="fn">prix</span>(self):              <span class="cmt"># getter</span>
+        <span class="kw">return</span> self._prix
+
+    <span <span class="kw">class</span<span class="op">>=</span>"fn">@prix</span>.setter
+    <span class="kw">def</span> <span class="fn">prix</span>(self, valeur):      <span class="cmt"># setter avec validation</span>
+        <span class="kw">if</span> valeur &lt;= <span class="num">0</span>:
+            <span class="kw">raise</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">ValueError</span>(&quot;Le prix doit être positif.&quot;)
+        self._prix = valeur
+
+    <span <span class="kw">class</span<span class="op">>=</span>"fn">@<span class="bi">property</span></span>
+    <span class="kw">def</span> <span class="fn">stock</span>(self): <span class="kw">return</span> self._stock
+
+    <span class="kw">def</span> <span class="fn">ajouter_stock</span>(self, qte):
+        <span class="kw">if</span> qte &gt; <span class="num">0</span>:
+            self._stock <span class="op">+=</span> qte
+            <span class="bi">print</span>(f&quot;  ✅ +{qte}. Stock : {self._stock}&quot;)
+
+    <span class="kw">def</span> <span class="fn">vendre</span>(self, qte):
+        <span class="kw">if</span> qte &gt; self._stock:
+            <span class="bi">print</span>(f&quot;  ❌ Stock insuffisant ({self._stock} dispo).&quot;)
+        <span class="kw">else</span>:
+            self._stock <span class="op">-=</span> qte
+            <span class="bi">print</span>(f&quot;  ✅ {qte} vendu(s). Restant : {self._stock}&quot;)
+
+p = <span <span class="kw">class</span<span class="op">>=</span>"cls">Produit</span>(&quot;Téléphone&quot;, 150_000, <span class="num">10</span>)
+p.vendre(<span class="num">3</span>)
+p.ajouter_stock(<span class="num">5</span>)
+<span class="bi">print</span>(f&quot;  Prix : {p.prix:,} FCFA | Stock : {p.stock}&quot;)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--or-l);color:var(--or);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 7.6</span>
+      <span class="cours-title" style="display:inline">Hiérarchie de Véhicules</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p><code>super().__init__()</code> appelle le constructeur parent avant d'ajouter les attributs enfant.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div>Le polymorphisme : la méthode appelée dépend du type réel de l'objet, pas du type déclaré.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_7_6.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">class</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">Vehicule</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, marque, vitesse_max):
+        self.marque      = marque
+        self.vitesse_max = vitesse_max
+
+    <span class="kw">def</span> <span class="fn">demarrer</span>(self):
+        <span class="bi">print</span>(f&quot;  Véhicule {self.marque} démarre.&quot;)
+
+<span class="kw">class</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">Voiture</span>(<span <span class="kw">class</span<span class="op">>=</span>"cls">Vehicule</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, marque, vitesse_max, nb_portes):
+        <span class="bi">super</span>().__init__(marque, vitesse_max)   <span class="cmt"># appel parent</span>
+        self.nb_portes = nb_portes
+
+    <span class="kw">def</span> <span class="fn">demarrer</span>(self):   <span class="cmt"># override</span>
+        <span class="bi">print</span>(f&quot;  🚗 {self.marque} ({self.nb_portes} portes) : moteur lancé !&quot;)
+
+<span class="kw">class</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">Moto</span>(<span <span class="kw">class</span<span class="op">>=</span>"cls">Vehicule</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, marque, vitesse_max, cylindree):
+        <span class="bi">super</span>().__init__(marque, vitesse_max)
+        self.cylindree = cylindree
+
+    <span class="kw">def</span> <span class="fn">demarrer</span>(self):   <span class="cmt"># override</span>
+        <span class="bi">print</span>(f&quot;  🏍️  {self.marque} {self.cylindree}cc : VROOOOM !&quot;)
+
+<span class="cmt"># Polymorphisme : même appel, comportements différents</span>
+<span class="kw">for</span> v <span class="kw">in</span> [<span <span class="kw">class</span<span class="op">>=</span>"cls">Voiture</span>(&quot;Toyota&quot;, <span class="num">180</span>, <span class="num">4</span>), <span <span class="kw">class</span<span class="op">>=</span>"cls">Moto</span>(&quot;Honda&quot;, <span class="num">200</span>, <span class="num">600</span>), <span <span class="kw">class</span<span class="op">>=</span>"cls">Vehicule</span>(&quot;Vélo&quot;, <span class="num">30</span>)]:
+    v.demarrer()</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--or-l);color:var(--or);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 7.7</span>
+      <span class="cours-title" style="display:inline">Classe Fraction</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Simplification automatique par le PGCD, surcharge des opérateurs <code>+</code> et <code>*</code>.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div><code>gcd(a, b)</code> (from math) retourne le plus grand commun diviseur.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_7_7.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">from</span> math <span class="kw">import</span> gcd
+
+<span class="kw">class</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">Fraction</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, numerateur, denominateur):
+        <span class="kw">if</span> denominateur <span class="op">==</span> <span class="num">0</span>:
+            <span class="kw">raise</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">ValueError</span>(&quot;Dénominateur ne peut pas être zéro.&quot;)
+        commun = gcd(<span class="bi">abs</span>(numerateur), <span class="bi">abs</span>(denominateur))
+        self.num = numerateur   <span class="op">//</span> commun
+        self.den = denominateur <span class="op">//</span> commun
+        <span class="kw">if</span> self.den &lt; <span class="num">0</span>:           <span class="cmt"># signe toujours au numérateur</span>
+            self.num, self.den = -self.num, -self.den
+
+    <span class="kw">def</span> <span class="fn">__str__</span>(self):
+        <span class="kw">return</span> <span class="bi">str</span>(self.num) <span class="kw">if</span> self.den <span class="op">==</span> <span class="num">1</span> <span class="kw">else</span> f&quot;{self.num}/{self.den}&quot;
+
+    <span class="kw">def</span> <span class="fn">__add__</span>(self, other):
+        <span class="kw">return</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">Fraction</span>(self.num * other.den + other.num * self.den,
+                        self.den * other.den)
+
+    <span class="kw">def</span> <span class="fn">__mul__</span>(self, other):
+        <span class="kw">return</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">Fraction</span>(self.num * other.num, self.den * other.den)
+
+    <span class="kw">def</span> <span class="fn">__eq__</span>(self, other):
+        <span class="kw">return</span> self.num <span class="op">==</span> other.num <span class="kw">and</span> self.den <span class="op">==</span> other.den
+
+f1, f2 = <span <span class="kw">class</span<span class="op">>=</span>"cls">Fraction</span>(<span class="num">1</span>, <span class="num">2</span>), <span <span class="kw">class</span<span class="op">>=</span>"cls">Fraction</span>(<span class="num">1</span>, <span class="num">3</span>)
+<span class="bi">print</span>(f&quot;{f1} + {f2} = {f1 + f2}&quot;)    <span class="cmt"># 1/2 + 1/3 = 5/6</span>
+<span class="bi">print</span>(f&quot;{f1} * {f2} = {f1 * f2}&quot;)    <span class="cmt"># 1/2 * 1/3 = 1/6</span>
+<span class="bi">print</span>(f&quot;<span class="num">6</span>/<span class="num">4</span> = {<span <span class="kw">class</span<span class="op">>=</span>"cls">Fraction</span>(<span class="num">6</span>, <span class="num">4</span>)}&quot;)      <span class="cmt"># simplifié -&gt; 3/2</span></pre>
+</div>
+  </div>
+</div></section>
+
+<section class="day-section d8" id="corr-jour8">
+  <div class="day-header">
+    <div class="day-num">8</div>
+    <div>
+      <div class="section-label">Corrections · Jour 8</div>
+      <h2 class="day-title">Modules & NumPy</h2>
+      <p class="day-subtitle">Modules standards · Créer ses modules · NumPy arrays · Broadcasting</p>
+    </div>
+  </div>
+  <div class="progress-wrap"><div class="progress-bar" style="width:80%"></div></div>
+  <div class="section-label">Objectifs vérifiés</div>
+  <div class="objectifs-grid"><div class="objectif-item"><span class="check">✓</span>Créer et importer des modules</div><div class="objectif-item"><span class="check">✓</span>NumPy arrays et opérations vectorielles</div><div class="objectif-item"><span class="check">✓</span>Statistiques descriptives avec NumPy</div><div class="objectif-item"><span class="check">✓</span>Indexation booléenne</div></div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 8.1</span>
+      <span class="cours-title" style="display:inline">Module de Calculs Personnalisé</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Un module Python = un fichier <code>.py</code> avec des fonctions réutilisables.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div><code>if __name__ == "__main__"</code> : ce bloc ne s'exécute PAS quand on fait <code>import calculs</code>.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">calculs.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="cmt"># calculs.py — Sauvegardez ce fichier, puis : import calculs</span>
+
+<span class="kw">def</span> <span class="fn">factorielle</span>(n):
+    &quot;&quot;&quot;Factorielle de n (n &gt;= <span class="num">0</span>).&quot;&quot;&quot;
+    <span class="kw">if</span> n &lt; <span class="num">0</span>: <span class="kw">raise</span> <span <span class="kw">class</span<span class="op">>=</span>"cls">ValueError</span>(&quot;n doit être &gt;= <span class="num">0</span>&quot;)
+    <span class="kw">if</span> n <span class="op">==</span> <span class="num">0</span>: <span class="kw">return</span> <span class="num">1</span>
+    resultat = <span class="num">1</span>
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="bi">range</span>(<span class="num">1</span>, n + <span class="num">1</span>):
+        resultat <span class="op">*=</span> i
+    <span class="kw">return</span> resultat
+
+<span class="kw">def</span> <span class="fn">pgcd</span>(a, b):
+    &quot;&quot;&quot;PGCD par l&<span class="cmt">#x27;algorithme d&#x27;Euclide.&quot;&quot;&quot;</span>
+    a, b = <span class="bi">abs</span>(a), <span class="bi">abs</span>(b)
+    <span class="kw">while</span> b:
+        a, b = b, a % b
+    <span class="kw">return</span> a
+
+<span class="kw">def</span> <span class="fn">est_premier</span>(n):
+    &quot;&quot;&quot;<span class="kw">True</span> si n est premier.&quot;&quot;&quot;
+    <span class="kw">if</span> n &lt; <span class="num">2</span>: <span class="kw">return</span> <span class="kw">False</span>
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="bi">range</span>(<span class="num">2</span>, <span class="bi">int</span>(n<span class="op">**</span><span class="num">0.5</span>) + <span class="num">1</span>):
+        <span class="kw">if</span> n % i <span class="op">==</span> <span class="num">0</span>: <span class="kw">return</span> <span class="kw">False</span>
+    <span class="kw">return</span> <span class="kw">True</span>
+
+<span class="kw">def</span> <span class="fn">fibonacci</span>(n):
+    &quot;&quot;&quot;n premiers termes de la suite de Fibonacci.&quot;&quot;&quot;
+    <span class="kw">if</span> n &lt;= <span class="num">0</span>: <span class="kw">return</span> []
+    <span class="kw">if</span> n <span class="op">==</span> <span class="num">1</span>: <span class="kw">return</span> [<span class="num">0</span>]
+    s = [<span class="num">0</span>, <span class="num">1</span>]
+    <span class="kw">for</span> _ <span class="kw">in</span> <span class="bi">range</span>(<span class="num">2</span>, n):
+        s.append(s[-<span class="num">1</span>] + s[-<span class="num">2</span>])
+    <span class="kw">return</span> s
+
+<span class="kw">if</span> __name__ <span class="op">==</span> &quot;__main__&quot;:   <span class="cmt"># s&#x27;exécute uniquement si lancé directement</span>
+    <span class="bi">print</span>(factorielle(<span class="num">5</span>))    <span class="cmt"># 120</span>
+    <span class="bi">print</span>(pgcd(<span class="num">48</span>, <span class="num">18</span>))      <span class="cmt"># 6</span>
+    <span class="bi">print</span>(est_premier(<span class="num">17</span>))   <span class="cmt"># True</span>
+    <span class="bi">print</span>(fibonacci(<span class="num">10</span>))     <span class="cmt"># [0,1,1,2,3,5,8,13,21,34]</span></pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 8.3</span>
+      <span class="cours-title" style="display:inline">Statistiques avec NumPy</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Génération aléatoire + toutes les fonctions statistiques NumPy en quelques lignes.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div>L'indexation booléenne <code>notes[notes >= 10]</code> filtre sans boucle — c'est la puissance NumPy.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_8_3.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">import</span> numpy <span class="kw">as</span> np
+
+notes = np.random.randint(<span class="num">0</span>, <span class="num">21</span>, <span class="num">100</span>)   <span class="cmt"># 100 notes entre 0 et 20</span>
+
+<span class="bi">print</span>(f&quot;Moyenne    : {np.mean(notes):.2f}&quot;)
+<span class="bi">print</span>(f&quot;Médiane    : {np.median(notes):.1f}&quot;)
+<span class="bi">print</span>(f&quot;Écart-<span class="bi">type</span> : {np.std(notes):.2f}&quot;)
+<span class="bi">print</span>(f&quot;Min / Max  : {np.<span class="bi">min</span>(notes)} / {np.<span class="bi">max</span>(notes)}&quot;)
+
+admis = np.<span class="bi">sum</span>(notes &gt;= <span class="num">10</span>)
+<span class="bi">print</span>(f&quot;Notes &gt;= <span class="num">10</span> : {admis}/<span class="num">100</span>  ({admis}%)&quot;)
+<span class="bi">print</span>(f&quot;  &lt; <span class="num">10</span>  : {np.<span class="bi">sum</span>(notes &lt; <span class="num">10</span>)}&quot;)
+<span class="bi">print</span>(f&quot;  <span class="num">10</span>-<span class="num">14</span> : {np.<span class="bi">sum</span>((notes &gt;= <span class="num">10</span>) &amp; (notes &lt; <span class="num">15</span>))}&quot;)
+<span class="bi">print</span>(f&quot;  &gt;= <span class="num">15</span> : {np.<span class="bi">sum</span>(notes &gt;= <span class="num">15</span>)}&quot;)</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--or-l);color:var(--or);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 8.6</span>
+      <span class="cours-title" style="display:inline">Simulation Monte Carlo — Estimer π</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Points aléatoires dans un carré [0,1] × [0,1] : proportion dans le quart de cercle ≈ π/4.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div>Plus <code>n</code> est grand, plus l'estimation est précise — c'est la loi des grands nombres.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_8_6.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="kw">def</span> <span class="fn">estimer_pi</span>(n=100_000):
+    &quot;&quot;&quot;Estime pi par la méthode de Monte Carlo.&quot;&quot;&quot;
+    x = np.random.rand(n)
+    y = np.random.rand(n)
+    dans_cercle = (x<span class="op">**</span><span class="num">2</span> + y<span class="op">**</span><span class="num">2</span>) &lt; <span class="num">1</span>   <span class="cmt"># indexation booléenne</span>
+    <span class="kw">return</span> <span class="num">4</span> * np.<span class="bi">sum</span>(dans_cercle) / n
+
+<span class="bi">print</span>(&quot;Estimation de π par Monte Carlo :&quot;)
+<span class="kw">for</span> n <span class="kw">in</span> [1_000, 10_000, 100_000, 1_000_000]:
+    pi_est = estimer_pi(n)
+    erreur = <span class="bi">abs</span>(pi_est - np.pi)
+    <span class="bi">print</span>(f&quot;  n={n:&gt;<span class="num">8</span>,} : π ≈ {pi_est:.6f}  (erreur: {erreur:.6f})&quot;)</pre>
+</div>
+  </div>
+</div></section>
+
+<section class="day-section d9" id="corr-jour9">
+  <div class="day-header">
+    <div class="day-num">9</div>
+    <div>
+      <div class="section-label">Corrections · Jour 9</div>
+      <h2 class="day-title">Pandas & Analyse de Données</h2>
+      <p class="day-subtitle">Series · DataFrames · Filtrage · Groupby · Valeurs manquantes</p>
+    </div>
+  </div>
+  <div class="progress-wrap"><div class="progress-bar" style="width:90%"></div></div>
+  <div class="section-label">Objectifs vérifiés</div>
+  <div class="objectifs-grid"><div class="objectif-item"><span class="check">✓</span>Créer et explorer des DataFrames</div><div class="objectif-item"><span class="check">✓</span>Filtrage avec conditions booléennes</div><div class="objectif-item"><span class="check">✓</span>Agrégations avec groupby()</div><div class="objectif-item"><span class="check">✓</span>Export CSV/JSON</div></div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 9.1</span>
+      <span class="cours-title" style="display:inline">Créer et Explorer un DataFrame</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p><code>info()</code>, <code>describe()</code>, <code>unique()</code>, <code>value_counts()</code> — les 4 commandes d'exploration.</p>
+    
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_9_1.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+data = {
+    &quot;nom&quot;          : [&quot;Alice&quot;, &quot;Bob&quot;, &quot;Charlie&quot;, &quot;Diana&quot;, &quot;Eve&quot;],
+    &quot;age&quot;          : [<span class="num">22</span>, <span class="num">25</span>, <span class="num">21</span>, <span class="num">23</span>, <span class="num">24</span>],
+    &quot;ville&quot;        : [&quot;Libreville&quot;, &quot;Port-Gentil&quot;, &quot;Libreville&quot;, &quot;Oyem&quot;, &quot;Libreville&quot;],
+    &quot;note_maths&quot;   : [<span class="num">15</span>, <span class="num">12</span>, <span class="num">18</span>, <span class="num">9</span>, <span class="num">14</span>],
+    &quot;note_physique&quot;: [<span class="num">14</span>, <span class="num">16</span>, <span class="num">13</span>, <span class="num">11</span>, <span class="num">17</span>],
+}
+df = pd.DataFrame(data)
+
+<span class="bi">print</span>(&quot;<span class="op">==</span>= info() <span class="op">==</span>=&quot;)
+df.info()
+
+<span class="bi">print</span>(&quot;\n<span class="op">==</span>= describe() <span class="op">==</span>=&quot;)
+<span class="bi">print</span>(df.describe())
+
+<span class="bi">print</span>(&quot;\n<span class="op">==</span>= Villes uniques <span class="op">==</span>=&quot;)
+<span class="bi">print</span>(df[&quot;ville&quot;].unique())
+
+<span class="bi">print</span>(&quot;\n<span class="op">==</span>= Répartition par ville <span class="op">==</span>=&quot;)
+<span class="bi">print</span>(df[&quot;ville&quot;].value_counts())</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--or-l);color:var(--or);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 9.2</span>
+      <span class="cours-title" style="display:inline">Filtrage de Données</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p>Opérateurs booléens <code>&</code> et <code>|</code> pour combiner des conditions de filtrage.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div>Toujours entourer les conditions combinées de parenthèses : <code>(cond1) & (cond2)</code>.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_9_2.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+data = {
+    &quot;nom&quot;         : [&quot;Alice&quot;, &quot;Bob&quot;, &quot;Charlie&quot;, &quot;Diana&quot;, &quot;Eve&quot;],
+    &quot;note_maths&quot;  : [<span class="num">15</span>, <span class="num">12</span>, <span class="num">18</span>, <span class="num">9</span>, <span class="num">14</span>],
+    &quot;note_physique&quot;: [<span class="num">14</span>, <span class="num">16</span>, <span class="num">13</span>, <span class="num">11</span>, <span class="num">17</span>],
+    &quot;note_info&quot;   : [<span class="num">16</span>, <span class="num">14</span>, <span class="num">15</span>, <span class="num">10</span>, <span class="num">13</span>],
+}
+df = pd.DataFrame(data)
+df[&quot;moyenne&quot;] = df[[&quot;note_maths&quot;, &quot;note_physique&quot;, &quot;note_info&quot;]].mean(axis=<span class="num">1</span>)
+
+<span class="bi">print</span>(&quot;<span class="op">==</span>= Maths &gt; <span class="num">15</span> <span class="op">==</span>=&quot;)
+<span class="bi">print</span>(df[df[&quot;note_maths&quot;] &gt; <span class="num">15</span>][[&quot;nom&quot;, &quot;note_maths&quot;]])
+
+<span class="bi">print</span>(&quot;\n<span class="op">==</span>= Maths &gt; <span class="num">15</span> ET Physique &gt; <span class="num">15</span> <span class="op">==</span>=&quot;)
+masque = (df[&quot;note_maths&quot;] &gt; <span class="num">15</span>) &amp; (df[&quot;note_physique&quot;] &gt; <span class="num">15</span>)
+<span class="bi">print</span>(df[masque][[&quot;nom&quot;, &quot;note_maths&quot;, &quot;note_physique&quot;]])
+
+<span class="bi">print</span>(&quot;\n<span class="op">==</span>= Moyenne &gt;= <span class="num">15</span> <span class="op">==</span>=&quot;)
+<span class="bi">print</span>(df[df[&quot;moyenne&quot;] &gt;= <span class="num">15</span>][[&quot;nom&quot;, &quot;moyenne&quot;]].<span class="bi">round</span>(<span class="num">2</span>))
+
+<span class="bi">print</span>(&quot;\n<span class="op">==</span>= Meilleur en Informatique <span class="op">==</span>=&quot;)
+<span class="bi">print</span>(df.loc[df[&quot;note_info&quot;].idxmax(), [&quot;nom&quot;, &quot;note_info&quot;]])</pre>
+</div>
+  </div>
+</div>
+<div class="cours-card">
+  <div class="cours-header" onclick="toggleCours(this)">
+    <div class="cours-icon">✅</div>
+    <div style="flex:1;min-width:0">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--bleu-l);color:var(--bleu);padding:2px 9px;border-radius:50px;font-weight:700;margin-right:10px">Ex 9.4</span>
+      <span class="cours-title" style="display:inline">Analyse de Ventes par Groupby</span>
+    </div>
+    <span class="cours-chevron">›</span>
+  </div>
+  <div class="cours-body">
+    <p><code>groupby()</code> + <code>agg()</code> pour des analyses multi-colonnes.</p>
+    <div class="info-box tip"><span class="icon">💡</span><div><code>idxmax()</code> retourne l'index (= le nom du produit) correspondant à la valeur maximale.</div></div>
+    
+<div class="code-block">
+  <div class="code-bar">
+    <div class="code-dots">
+      <div class="code-dot" style="background:#FF5F57"></div>
+      <div class="code-dot" style="background:#FEBC2E"></div>
+      <div class="code-dot" style="background:#28C840"></div>
+    </div>
+    <span class="code-lang">ex_9_4.py</span>
+    <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+  </div>
+  <pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+data = {
+    &quot;produit&quot; : [&quot;Riz&quot;,&quot;Farine&quot;,&quot;Riz&quot;,&quot;Sucre&quot;,&quot;Farine&quot;,&quot;Riz&quot;,&quot;Sucre&quot;],
+    &quot;ville&quot;   : [&quot;Lib&quot;,&quot;Lib&quot;,&quot;PG&quot;,&quot;Lib&quot;,&quot;PG&quot;,&quot;Lib&quot;,&quot;PG&quot;],
+    &quot;quantite&quot;: [<span class="num">50</span>,  <span class="num">30</span>,  <span class="num">40</span>,  <span class="num">25</span>,  <span class="num">20</span>,  <span class="num">60</span>,  <span class="num">15</span>],
+    &quot;prix&quot;    : [<span class="num">500</span>, <span class="num">400</span>, <span class="num">500</span>, <span class="num">800</span>, <span class="num">400</span>, <span class="num">500</span>, <span class="num">800</span>],
+}
+df = pd.DataFrame(data)
+df[&quot;total&quot;] = df[&quot;quantite&quot;] * df[&quot;prix&quot;]
+
+<span class="bi">print</span>(&quot;<span class="op">==</span>= Total par produit <span class="op">==</span>=&quot;)
+<span class="bi">print</span>(df.groupby(&quot;produit&quot;)[&quot;total&quot;].<span class="bi">sum</span>().sort_values(ascending=<span class="kw">False</span>))
+
+<span class="bi">print</span>(&quot;\n<span class="op">==</span>= Total par ville <span class="op">==</span>=&quot;)
+<span class="bi">print</span>(df.groupby(&quot;ville&quot;)[&quot;total&quot;].<span class="bi">sum</span>())
+
+<span class="bi">print</span>(&quot;\n<span class="op">==</span>= Quantité moyenne par produit <span class="op">==</span>=&quot;)
+<span class="bi">print</span>(df.groupby(&quot;produit&quot;)[&quot;quantite&quot;].mean().<span class="bi">round</span>(<span class="num">1</span>))
+
+produit_top = df.groupby(&quot;produit&quot;)[&quot;quantite&quot;].<span class="bi">sum</span>().idxmax()
+<span class="bi">print</span>(f&quot;\n<span class="op">==</span>= <span <span class="kw">class</span<span class="op">>=</span>"cls">Produit</span> le plus vendu : {produit_top} <span class="op">==</span>=&quot;)</pre>
+</div>
+  </div>
+</div></section>
+</main>
+
+<footer class="site-footer">
+  <div style="font-size:28px;margin-bottom:12px">💎</div>
+  <div style="margin-bottom:8px;color:var(--texte2)"><strong>D.I.A.M</strong> · Diagnostic · Intelligence · Aptitude · Motivation</div>
+  <div style="color:var(--gris)">Corrections Bootcamp Python 10 Jours — 57 exercices résolus</div>
+  <div style="margin-top:16px;color:var(--gris-l);font-size:11px">Build the Africa You Want · Un algorithme à la fois · Un projet à la fois</div>
+</footer>
+
+<script>
+function toggleCours(header){
+  const body=header.nextElementSibling;
+  const ch=header.querySelector('.cours-chevron');
+  const open=body.classList.contains('open');
+  body.classList.toggle('open',!open);
+  ch.classList.toggle('open',!open);
+  header.classList.toggle('open',!open);
+}
+function copyCode(btn){
+  const pre=btn.closest('.code-block').querySelector('pre');
+  navigator.clipboard.writeText(pre.innerText).then(()=>{
+    btn.textContent='Copié !';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='Copier';btn.classList.remove('copied')},2000);
+  });
+}
+const tabs=document.querySelectorAll('.day-tab');
+const sections=document.querySelectorAll('.day-section');
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const id=e.target.id;
+      tabs.forEach(t=>t.classList.toggle('active',t.getAttribute('href')==='#'+id));
+    }
+  });
+},{threshold:0.15,rootMargin:'-66px 0px -60% 0px'});
+sections.forEach(s=>obs.observe(s));
+tabs.forEach(tab=>{
+  tab.addEventListener('click',e=>{
+    e.preventDefault();
+    const tgt=document.querySelector(tab.getAttribute('href'));
+    if(tgt)tgt.scrollIntoView({behavior:'smooth'});
+    tab.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+  });
+});
+const fadeStyle=document.createElement('style');
+fadeStyle.textContent='.fi{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease}.fv{opacity:1;transform:translateY(0)}';
+document.head.appendChild(fadeStyle);
+document.querySelectorAll('.day-section,.cours-card').forEach(el=>{
+  el.classList.add('fi');
+  new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('fv');e.target.classList.remove('fi')}});
+  },{threshold:0.05,rootMargin:'0px 0px -30px 0px'}).observe(el);
+});
+</script>
+</body>
+</html>
